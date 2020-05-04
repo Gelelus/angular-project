@@ -16,11 +16,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'Angular-project'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('Angular-project');
-  });
+ 
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
@@ -29,3 +25,4 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('.content span').textContent).toContain('Angular-project app is running!');
   });
 });
+  
