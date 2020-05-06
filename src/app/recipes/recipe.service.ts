@@ -9,22 +9,29 @@ import { Recipe } from './recipe.model';
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes: Recipe[] = [
-    new Recipe(
-      'first',
-      'first the best',
-      'https://minimalistbaker.com/wp-content/uploads/2020/01/PERFECT-Roasted-Potatoes-NO-boiling-FAST-crispy-edges-tender-inside-recipe-minimalistbaker-potatoes-plantbased-glutenfree_-6.jpg',
-      [new Ingredient('Meat', 1), new Ingredient('Frecnch', 20)]
-    ),
-    new Recipe(
-      'second',
-      'second the best',
-      'https://minimalistbaker.com/wp-content/uploads/2020/01/PERFECT-Roasted-Potatoes-NO-boiling-FAST-crispy-edges-tender-inside-recipe-minimalistbaker-potatoes-plantbased-glutenfree_-6.jpg',
-      [new Ingredient('banan', 1), new Ingredient('ukrop', 20)]
-    ),
-  ];
+  // private recipes: Recipe[] = [
+  //   new Recipe(
+  //     'first',
+  //     'first the best',
+  //     'https://minimalistbaker.com/wp-content/uploads/2020/01/PERFECT-Roasted-Potatoes-NO-boiling-FAST-crispy-edges-tender-inside-recipe-minimalistbaker-potatoes-plantbased-glutenfree_-6.jpg',
+  //     [new Ingredient('Meat', 1), new Ingredient('Frecnch', 20)]
+  //   ),
+  //   new Recipe(
+  //     'second',
+  //     'second the best',
+  //     'https://minimalistbaker.com/wp-content/uploads/2020/01/PERFECT-Roasted-Potatoes-NO-boiling-FAST-crispy-edges-tender-inside-recipe-minimalistbaker-potatoes-plantbased-glutenfree_-6.jpg',
+  //     [new Ingredient('banan', 1), new Ingredient('ukrop', 20)]
+  //   ),
+  // ];
+  
+  private recipes: Recipe[] = [];
 
   constructor(private slService: ShoppingListService) {}
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next([...this.recipes]);
+  }
 
   getRecipes() {
     return [...this.recipes];
