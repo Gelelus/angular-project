@@ -1,10 +1,15 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a href="#" class="navbar-brand">Recipe Book</a>
+      <a
+        style="cursor: pointer;"
+        class="navbar-brand"
+        (click)="onCollapse(divCollapse)"
+        >Recipe Book</a
+      >
     </div>
 
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" #divCollapse>
       <ul class="nav navbar-nav">
         <li routerLinkActive="active"><a routerLink="/recipes">Recipes</a></li>
         <li routerLinkActive="active">
