@@ -4,11 +4,11 @@ import { ShopingListComponent } from './shoping-list.component';
 import { ShopingEditComponent } from './shoping-edit/shoping-edit.component';
 import { ShopingListRoutingModule } from './shoping-list-routing.module';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [ShopingListComponent, ShopingEditComponent],
-  imports: [RouterModule, CommonModule, FormsModule, ShopingListRoutingModule],
+  imports: [RouterModule, SharedModule, FormsModule, ShopingListRoutingModule],
 })
 export class ShopingListModule {}
