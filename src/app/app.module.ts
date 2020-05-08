@@ -7,8 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { ShopingListComponent } from './shoping-list/shoping-list.component';
-import { ShopingEditComponent } from './shoping-list/shoping-edit/shoping-edit.component';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { ShoppingListService } from './shoping-list/shoping-list.service';
 import { RecipeService } from './recipes/recipe.service';
@@ -16,13 +14,12 @@ import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { RecipeModule } from './recipes/recipes.module';
+import { ShopingListModule } from './shoping-list/shoping-list.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    ShopingListComponent,
-    ShopingEditComponent,
     DropdownDirective,
     AuthComponent,
     LoadingSpinnerComponent,
@@ -33,7 +30,8 @@ import { RecipeModule } from './recipes/recipes.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RecipeModule
+    RecipeModule,
+    ShopingListModule
   ],
   providers: [
     ShoppingListService,
