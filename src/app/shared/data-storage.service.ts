@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, tap, take, exhaustMap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { map, tap } from 'rxjs/operators';
 
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
@@ -17,7 +17,7 @@ export class DataStorageService {
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();
     this.http
-      .put('https://ng-my-project-792e6.firebaseio.com/recipes.json', recipes)
+      .put('http://localhost:8080/recipes/update', recipes)
       .subscribe((response) => {
         console.log(response);
       });
@@ -25,9 +25,10 @@ export class DataStorageService {
 
   fetchRecipes() {
     return this.http
-      .get<Recipe[]>('https://ng-my-project-792e6.firebaseio.com/recipes.json')
+      .get<Recipe[]>('http://localhost:8080/recipes')
       .pipe(
         map((recipes) => {
+          console.log(recipes)
           return recipes.map((recipe) => {
             return {
               ...recipe,

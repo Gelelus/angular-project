@@ -26,11 +26,10 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseDate>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCTPlqNWQKSvmId92XTKjSNOJWhLIdUtMc',
+        'http://localhost:8080/users',
         {
           email: email,
           password: password,
-          returnSecureToken: true, //for firebase
         }
       )
       .pipe(
@@ -49,11 +48,10 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseDate>(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCTPlqNWQKSvmId92XTKjSNOJWhLIdUtMc',
+        'http://localhost:8080/users/login',
         {
           email: email,
-          password: password,
-          returnSecureToken: true, //for firebase
+          password: password
         }
       )
       .pipe(
@@ -121,26 +119,14 @@ export class AuthService {
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, UserId, token, expirationDate);
     this.user.next(user);
+    
     this.autoLogout(expiresIn * 1000);
     localStorage.setItem('UserData', JSON.stringify(user));
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An error occured';
-    if (!errorRes.error || !errorRes.error.error) {
-      return throwError(errorMessage);
-    }
-    switch (errorRes.error.error.message) {
-      case 'EMAIL_EXISTS':
-        errorMessage = 'this email exist already.';
-        break;
-      case 'EMAIL_NOT_FOUND':
-        errorMessage = 'This email does not exist.';
-        break;
-      case 'INVALID_PASSWORD':
-        errorMessage = 'Password is not correct.';
-        break;
-    }
-    return throwError(errorMessage);
+    //let errorMessage = 'An error occured';
+    
+    return throwError(errorRes.message);
   }
 }
