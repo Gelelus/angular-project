@@ -1,32 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { Ingredient } from '../shared/ingredient.model';
-import { ShoppingListService } from '../shoping-list/shoping-list.service';
 import { Recipe } from './recipe.model';
+import * as ShoppingListActions from '../shoping-list/store/shoping-list.actions';
+import * as fromShopingList from '../shoping-list/store/shoping-list.reducer';
 
 @Injectable()
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  // private recipes: Recipe[] = [
-  //   new Recipe(
-  //     'first',
-  //     'first the best',
-  //     'https://minimalistbaker.com/wp-content/uploads/2020/01/PERFECT-Roasted-Potatoes-NO-boiling-FAST-crispy-edges-tender-inside-recipe-minimalistbaker-potatoes-plantbased-glutenfree_-6.jpg',
-  //     [new Ingredient('Meat', 1), new Ingredient('Frecnch', 20)]
-  //   ),
-  //   new Recipe(
-  //     'second',
-  //     'second the best',
-  //     'https://minimalistbaker.com/wp-content/uploads/2020/01/PERFECT-Roasted-Potatoes-NO-boiling-FAST-crispy-edges-tender-inside-recipe-minimalistbaker-potatoes-plantbased-glutenfree_-6.jpg',
-  //     [new Ingredient('banan', 1), new Ingredient('ukrop', 20)]
-  //   ),
-  // ];
-  
   private recipes: Recipe[] = [];
 
-  constructor(private slService: ShoppingListService) {}
+  constructor(private store: Store<fromShopingList.AppState>) {}
 
   setRecipes(recipes: Recipe[]) {
     this.recipes = recipes;
@@ -42,7 +29,7 @@ export class RecipeService {
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
-    this.slService.addIngredientsArray(ingredients);
+    this.store.dispatch(new ShoppingListActions.AddIngredients(ingredients));
   }
 
   addRecipe(recipe: Recipe) {
