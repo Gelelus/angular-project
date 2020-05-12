@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const reader = new FileReader();
     reader.onload = (e) => {
       this.userImgUrl = e.target.result as string;
+      console.log(reader)
     }
     reader.readAsDataURL((<HTMLInputElement>event.target).files[0]);
   }
