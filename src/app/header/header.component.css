@@ -1,0 +1,10 @@
+.btn-logout {
+  cursor: pointer;
+  border: 1px solid rgb(218, 214, 214);
+}
+.img-avatar {
+  margin-left: 1em;
+}
+.avatar-container, .email-container {
+  border-top: 1px solid rgb(218, 214, 214);
+}

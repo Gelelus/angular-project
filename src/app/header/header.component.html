@@ -21,11 +21,8 @@
           <a routerLink="/shopping-list">Shopping List</a>
         </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="isAuth">
-          <a style="cursor: pointer;" (click)="onLogout()">Logout</a>
-        </li>
-        <li class="dropdown" appDropdown *ngIf="isAuth">
+      <ul class="nav navbar-nav navbar-right" *ngIf="isAuth">
+        <li class="dropdown" appDropdown>
           <a class="dropdown-toggle" role="button"
             >Managespan <span class="caret"></span
           ></a>
@@ -39,6 +36,22 @@
               >
             </li>
           </ul>
+        </li>
+
+        <li>
+          <a class="btn-logout" (click)="onLogout()">Logout</a>
+        </li>
+        <li class="avatar-container">
+          <img
+            width="50px"
+            height="50px"
+            class="rounded mx-auto d-block img-avatar"
+            [src]="userImgUrl"
+            alt=""
+          />
+        </li>
+        <li>
+          <a style="cursor: pointer;">{{ userEmail }}</a>
         </li>
       </ul>
     </div>

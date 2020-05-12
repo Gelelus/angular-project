@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Store, select} from '@ngrx/store';
 
 import { Ingredient } from '../shared/ingredient.model';
 import * as ShopingListActions from './store/shoping-list.actions';
@@ -17,7 +17,7 @@ export class ShopingListComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    this.ingredients = this.store.select('shopingList');
+    this.ingredients = this.store.pipe(select('shopingList'));
   }
 
   onEditItem(index: number) {
