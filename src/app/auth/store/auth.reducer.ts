@@ -23,7 +23,8 @@ export function authReducer(
         action.payload.email,
         action.payload.userId,
         action.payload.token,
-        action.payload.expirationDate
+        action.payload.expirationDate,
+        action.payload.avatarImgUrl
       );
       return {
         ...state,

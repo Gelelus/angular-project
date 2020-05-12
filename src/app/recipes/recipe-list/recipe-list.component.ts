@@ -5,7 +5,6 @@ import { Store, select } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
 import { Recipe } from '../recipe.model';
-import { RecipeService } from '../recipe.service';
 import * as fromApp from 'src/app/store/app.reducer';
 
 @Component({

@@ -17,6 +17,7 @@ export class AuthenticateSuccess implements Action {
       token: string;
       expirationDate: Date;
       redirect: boolean;
+      avatarImgUrl: string;
     }
   ) {}
 }

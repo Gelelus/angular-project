@@ -11,23 +11,22 @@ import { User } from '../user.model';
 import { AuthService } from '../auth.service';
 
 export interface AuthResponseDate {
-  kind: string;
   idToken: string;
   email: string;
-  refredhToken: string;
   expiresIn: string;
   localId: string;
-  registre?: boolean;
+  avatarUrl: string;
 }
 
 const handleAuthentication = (
   expiresIn: number,
   email: string,
-  userId: string,
-  token: string
+  userId: string, 
+  token: string,
+  avatarUrl: string
 ) => {
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-  const user = new User(email, userId, token, expirationDate);
+  const user = new User(email, userId, token, expirationDate,avatarUrl);
   localStorage.setItem('UserData', JSON.stringify(user));
   return new AuthActions.AuthenticateSuccess({
     email: email,
@@ -35,6 +34,7 @@ const handleAuthentication = (
     token: token,
     expirationDate: expirationDate,
     redirect: true,
+    avatarImgUrl: avatarUrl
   });
 };
 
@@ -66,7 +66,8 @@ export class AuthEffects {
               +resData.expiresIn,
               resData.email,
               resData.localId,
-              resData.idToken
+              resData.idToken,
+              resData.avatarUrl
             );
           }),
           catchError((errorRes) => {
@@ -94,7 +95,8 @@ export class AuthEffects {
               +resData.expiresIn,
               resData.email,
               resData.localId,
-              resData.idToken
+              resData.idToken,
+              resData.avatarUrl
             );
           }),
           catchError((errorRes) => {
@@ -123,6 +125,7 @@ export class AuthEffects {
         id: string;
         _token: string;
         _tokenExpirationDate: string;
+        avatarImgUrl: string;
       } = JSON.parse(localStorage.getItem('UserData'));
 
       if (!userData) {
@@ -132,7 +135,8 @@ export class AuthEffects {
           userData.email,
           userData.id,
           userData._token,
-          new Date(userData._tokenExpirationDate)
+          new Date(userData._tokenExpirationDate),
+          userData.avatarImgUrl
         );
 
         if (loadedUser.token) {
@@ -147,6 +151,7 @@ export class AuthEffects {
             token: loadedUser.token,
             expirationDate: new Date(userData._tokenExpirationDate),
             redirect: false,
+            avatarImgUrl: loadedUser.avatarImgUrl
           });
         }
         return { type: 'none' };

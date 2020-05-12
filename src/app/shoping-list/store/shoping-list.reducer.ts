@@ -9,9 +9,9 @@ export interface State {
 
 const initialState: State = {
   ingredients: [
-    new Ingredient('Aples', 5),
-    new Ingredient('Aples', 5),
-    new Ingredient('Aples', 5),
+    new Ingredient('testIngredient', 5),
+    new Ingredient('testIngredient', 5),
+    new Ingredient('testIngredient', 5),
   ],
   editedIngredient: null,
   editedIngredientIndex: -1,

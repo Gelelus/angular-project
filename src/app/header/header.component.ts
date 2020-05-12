@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from '../auth/store/auth.actions';
 import * as RecipesActions from '../recipes/store/recipe.actions';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -15,13 +16,10 @@ import * as RecipesActions from '../recipes/store/recipe.actions';
 export class HeaderComponent implements OnInit, OnDestroy {
   isAuth = false;
   userEmail = '';
-  userImgUrl =
-    'https://lumpics.ru/wp-content/uploads/2017/11/Programmyi-dlya-sozdaniya-avatarok.png';
+  userImgUrl = '';
   private userSub: Subscription;
 
-  constructor(
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.userSub = this.store
@@ -33,8 +31,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.isAuth = !!user;
         if (user) {
           this.userEmail = user.email;
+          this.userImgUrl = environment.DataBaseUrl + user.avatarImgUrl;
         }
       });
+  }
+  
+  onPreviewImg(event: Event){
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.userImgUrl = e.target.result as string;
+    }
+    reader.readAsDataURL((<HTMLInputElement>event.target).files[0]);
   }
 
   onCollapse(divCollapse: HTMLDivElement) {
@@ -52,7 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onLogout() {
     this.store.dispatch(new AuthActions.Logout());
   }
-
+ 
   ngOnDestroy() {
     this.userSub.unsubscribe();
   }

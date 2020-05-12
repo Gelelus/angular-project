@@ -1,10 +1,25 @@
 .btn-logout {
   cursor: pointer;
-  border: 1px solid rgb(218, 214, 214);
+  border-right: 1px solid rgb(218, 214, 214);
 }
 .img-avatar {
   margin-left: 1em;
+  margin-right: 1em;
+  cursor: pointer;
+  border-radius: 50%;
 }
-.avatar-container, .email-container {
-  border-top: 1px solid rgb(218, 214, 214);
+
+.avatar-container {
+  cursor: pointer;
+}
+
+#file{
+  display: none
+}
+
+@media (max-width: 767px) {
+  .avatar-container {
+    padding-top: 1em;
+    border-top: 1px solid rgb(218, 214, 214);
+  }
 }
