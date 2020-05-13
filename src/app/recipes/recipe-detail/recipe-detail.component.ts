@@ -15,7 +15,7 @@ import * as ShopingListActions from '../../shoping-list/store/shoping-list.actio
 })
 export class RecipeDetailComponent implements OnInit, OnDestroy {
   recipe: Recipe;
-  id: number;
+  id: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,18 +27,17 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     this.route.params
       .pipe(
         map((params) => {
-          return +params['id'];
+          return params['id'];
         }),
         switchMap((id) => {
           this.id = id;
-          return this.store;
-        }),
-        select('recipes'),
-        map((recipesState) =>
-          recipesState.recipes.find((_, i) => {
-            return i === this.id;
-          })
-        )
+          return this.store.pipe(select('recipes'));
+        }),    
+        map((recipesState) => {
+          return recipesState.recipes.find((recipe) => {
+            return recipe._id === this.id;
+          });
+        })
       )
       .subscribe((recipe) => {
         this.recipe = recipe;
@@ -56,7 +55,7 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
   }
 
   onDeleteRecipe() {
-    this.store.dispatch(new RecipesActions.DeleteRecipe(this.id));
+    this.store.dispatch(new RecipesActions.DeleteRecipeOnDataBase(this.id));
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 

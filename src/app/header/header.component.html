@@ -22,22 +22,6 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right" *ngIf="isAuth">
-        <li class="dropdown" appDropdown>
-          <a class="dropdown-toggle" role="button"
-            >Managespan <span class="caret"></span
-          ></a>
-          <ul class="dropdown-menu">
-            <li>
-              <a style="cursor: pointer;" (click)="onSaveData()">Save Data</a>
-            </li>
-            <li>
-              <a style="cursor: pointer;" (click)="onFetchData()"
-                >Featch Data</a
-              >
-            </li>
-          </ul>
-        </li>
-
         <li>
           <a class="btn-logout" (click)="onLogout()">Logout</a>
         </li>

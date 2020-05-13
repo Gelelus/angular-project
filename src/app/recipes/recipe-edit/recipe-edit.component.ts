@@ -14,7 +14,7 @@ import * as RecipeActions from '../store/recipe.actions';
   styleUrls: ['./recipe-edit.component.css'],
 })
 export class RecipeEditComponent implements OnInit, OnDestroy {
-  id: number;
+  id: string;
   editMode = false;
   recipeForm: FormGroup;
   private recipeSub: Subscription;
@@ -27,7 +27,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params['id'];
+      this.id = params['id'];
       this.editMode = params['id'] != null;
       this.initForm();
     });
@@ -35,14 +35,17 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.editMode) {
+      
       this.store.dispatch(
-        new RecipeActions.UpdateRecipe({
-          index: this.id,
-          newRecipe: this.recipeForm.value,
+        new RecipeActions.UpdateRecipeOnDataBase({
+          ...this.recipeForm.value,
+          _id: this.id,
         })
       );
     } else {
-      this.store.dispatch(new RecipeActions.AddRecipe(this.recipeForm.value));
+      this.store.dispatch(
+        new RecipeActions.AddRecipeToDataBase(this.recipeForm.value)
+      );
     }
     this.onCancel();
   }
@@ -74,14 +77,11 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     let recipeIngredients = new FormArray([]);
 
     if (this.editMode) {
-      
       this.recipeSub = this.store
         .pipe(
           select('recipes'),
           map((recipeState) => {
-            return recipeState.recipes.find(
-              (recipe, index) => index === this.id
-            );
+            return recipeState.recipes.find((recipe) => recipe._id === this.id);
           })
         )
         .subscribe((recipe) => {
@@ -113,8 +113,8 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.recipeSub){
-    this.recipeSub.unsubscribe();
+    if (this.recipeSub) {
+      this.recipeSub.unsubscribe();
     }
   }
 }

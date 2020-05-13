@@ -1,5 +1,5 @@
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, withLatestFrom, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -21,7 +21,7 @@ export class RecipeEffects {
       return recipes.map((recipe) => {
         return {
           ...recipe,
-          imgredients: recipe.ingredients ? recipe.ingredients : [],
+          ingredients: recipe.ingredients ? recipe.ingredients : [],
         };
       });
     }),
@@ -39,6 +39,50 @@ export class RecipeEffects {
         environment.DataBaseUrl + 'recipes/update',
         recipesState.recipes
       );
+    })
+  );
+
+  @Effect()
+  AddRecipeToDataBase = this.actions$.pipe(
+    ofType(RecipesActions.ADD_RECIPE_TO_DB),
+    switchMap((actionData: RecipesActions.AddRecipeToDataBase) => {
+      return this.http.post<Recipe>(
+        environment.DataBaseUrl + 'recipes',
+        actionData.payload
+      );
+    }),
+    map((recipe) => {
+      console.log(recipe); //добавить handle errors
+      return new RecipesActions.AddRecipe(recipe);
+    })
+  );
+
+  @Effect()
+  UpdateRecipeOnDataBase = this.actions$.pipe(
+    ofType(RecipesActions.UPDATE_RECIPE_ON_DB),
+    switchMap((actionData: RecipesActions.UpdateRecipeOnDataBase) => {
+      return this.http.put<Recipe>(
+        environment.DataBaseUrl + 'recipes',
+        actionData.payload
+      );
+    }),
+    map((recipe) => {
+      console.log(recipe); //добавить handle errors
+      return new RecipesActions.UpdateRecipe(recipe);
+    })
+  );
+
+  @Effect()
+  DeleteRecipeOnDataBase = this.actions$.pipe(
+    ofType(RecipesActions.DELETE_RECIPE_ON_DB),
+    switchMap((actionData: RecipesActions.DeleteRecipeOnDataBase) => {
+      return this.http.delete<{ id: string }>(
+        environment.DataBaseUrl + `recipes/${actionData.payload}`
+      );
+    }),
+    map((recipeId) => {
+      console.log(recipeId); //добавить handle errors
+      return new RecipesActions.DeleteRecipe(recipeId.id);
     })
   );
 

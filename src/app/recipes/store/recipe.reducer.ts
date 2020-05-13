@@ -1,6 +1,5 @@
 import { Recipe } from '../recipe.model';
 import * as RecipesActions from './recipe.actions';
-import { StartEdit } from 'src/app/shoping-list/store/shoping-list.actions';
 
 export interface State {
   recipes: Recipe[];
@@ -28,20 +27,19 @@ export function recipeReducer(
       };
 
     case RecipesActions.UPDATE_RECIPE:
-      const updatedRecipe = {
-        ...state.recipes[action.payload.index],
-        ...action.payload.newRecipe,
-      };
-
-      const updatedRecipes = [...state.recipes];
-      updatedRecipes[action.payload.index] = updatedRecipe;
-
+      const updatedRecipes = [...state.recipes].map((recipe) => {
+        if (recipe._id === action.payload._id) {
+          return action.payload;
+        } else {
+          return recipe;
+        }
+      });
       return { ...state, recipes: updatedRecipes };
 
     case RecipesActions.DELETE_RECIPE:
       return {
         ...state,
-        recipes: state.recipes.filter((res, i) => i !== action.payload),
+        recipes: state.recipes.filter((res) => res._id !== action.payload),
       };
 
     default:
