@@ -14,6 +14,7 @@ import * as fromApp from 'src/app/store/app.reducer';
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[];
+  recipesNumber = 6;//////////chnage 
   private RecipeSubscription: Subscription;
 
   constructor(
@@ -37,6 +38,10 @@ export class RecipeListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.RecipeSubscription.unsubscribe();
+  }
+
+  onChangePage(event){
+    console.log(event)
   }
 
   onNewRecipe() {

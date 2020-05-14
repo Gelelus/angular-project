@@ -1,0 +1,8 @@
+a {
+  cursor: pointer;
+}
+ul {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+}

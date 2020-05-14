@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from '../auth/store/auth.actions';
-import * as RecipesActions from '../recipes/store/recipe.actions';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -47,14 +46,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onCollapse(divCollapse: HTMLDivElement) {
     divCollapse.classList.toggle('collapse');
-  }
-
-  onSaveData() {
-    this.store.dispatch(new RecipesActions.StoreRecipes());
-  }
-
-  onFetchData() {
-    this.store.dispatch(new RecipesActions.FetchRecipes());
   }
 
   onLogout() {
