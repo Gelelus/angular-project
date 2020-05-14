@@ -1,0 +1,121 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-4 pb-5">
+      <!-- Account Sidebar-->
+      <div class="author-card pb-3">
+        <div
+          class="author-card-cover"
+          style="
+            background-image: url(https://demo.createx.studio/createx-html/img/widgets/author/cover.jpg);
+          "
+        ></div>
+        <div class="author-card-profile">
+          <div class="author-card-avatar">
+            <img [src]="imgAvatarUrl" [alt]="fullname" />
+          </div>
+          <div class="author-card-details">
+            <h5 class="author-card-name text-lg">{{ fullname }}</h5>
+            <span class="author-card-position"
+              >Joined {{ registratedDate }}</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="wizard">
+        <nav class="list-group list-group-flush">
+          <a class="list-group-item" href="#">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <i class="fe-icon-shopping-bag mr-1 text-muted"></i>
+                <div class="d-inline-block font-weight-medium text-uppercase">
+                  Orders List
+                </div>
+              </div>
+            </div> </a
+          ><a class="list-group-item active" href="#"
+            ><i class="fe-icon-user text-muted"></i>Profile Settings</a
+          >
+        </nav>
+      </div>
+    </div>
+    <!-- Profile Settings-->
+    <div class="col-lg-8 pb-5">
+      <form class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="account-fn">First Name</label>
+            <input
+              class="form-control"
+              type="text"
+              id="account-fn"
+              [value]="firstName"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="account-ln">Last Name</label>
+            <input
+              class="form-control"
+              type="text"
+              id="account-ln"
+              [value]="secondName"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="account-email">E-mail Address</label>
+            <input
+              class="form-control"
+              type="email"
+              id="account-email"
+              [value]="email"
+              disabled=""
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="account-phone">Phone Number</label>
+            <input
+              class="form-control"
+              type="text"
+              id="account-phone"
+              [value]="phoneNumber"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="account-pass">New Password</label>
+            <input class="form-control" type="password" id="account-pass" />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="account-confirm-pass">Confirm Password</label>
+            <input
+              class="form-control"
+              type="password"
+              id="account-confirm-pass"
+            />
+          </div>
+        </div>
+        <div class="col-12">
+          <hr class="mt-2 mb-3" />
+          <div
+            class="d-flex flex-wrap justify-content-between align-items-center"
+          >
+            <button class="btn btn-style-1 btn-primary" type="button">
+              Update Profile
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

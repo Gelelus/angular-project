@@ -21,6 +21,11 @@ const appRoutes: Routes = [
     loadChildren: () =>
       import('src/app/auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('src/app/profile/profile.module').then((m) => m.ProfileModule),
+  },
 ];
 
 @NgModule({

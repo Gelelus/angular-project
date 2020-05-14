@@ -20,30 +20,22 @@
         <li routerLinkActive="active">
           <a routerLink="/shopping-list">Shopping List</a>
         </li>
+
       </ul>
       <ul class="nav navbar-nav navbar-right" *ngIf="isAuth">
         <li>
           <a class="btn-logout" (click)="onLogout()">Logout</a>
         </li>
-        <li class="avatar-container">
-          <div>
-            <label for="file">
-              <img
-                width="50px"
-                height="50px"
-                class="rounded mx-auto d-block img-avatar"
-                [src]="userImgUrl"
-                alt=""
-              />
-            </label>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              (change) = "onPreviewImg($event)"
+        <li routerLinkActive="active" *ngIf="isAuth">
+          <a class = 'profile-container' routerLink="/profile">
+            <img
+              width="50px"
+              height="50px"
+              class="rounded mx-auto d-block img-avatar"
+              [src]="userImgUrl"
+              alt=""
             />
-            <a>{{ userEmail }}</a>
-          </div>
+          </a>
         </li>
       </ul>
     </div>

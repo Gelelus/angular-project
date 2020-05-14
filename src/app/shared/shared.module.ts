@@ -5,6 +5,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { DropdownDirective } from './dropdown.directive';
 import { PaginationComponent } from './pagination/pagination.component';
 
+
 @NgModule({
   declarations: [
     LoadingSpinnerComponent,

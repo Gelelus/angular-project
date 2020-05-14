@@ -35,14 +35,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
   
-  onPreviewImg(event: Event){
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      this.userImgUrl = e.target.result as string;
-      console.log(reader)
-    }
-    reader.readAsDataURL((<HTMLInputElement>event.target).files[0]);
-  }
+  // onPreviewImg(event: Event){
+  //   const reader = new FileReader();
+  //   reader.onload = (e) => {
+  //     this.userImgUrl = e.target.result as string;
+  //     console.log(reader)
+  //   }
+  //   reader.readAsDataURL((<HTMLInputElement>event.target).files[0]);
+  // }
 
   onCollapse(divCollapse: HTMLDivElement) {
     divCollapse.classList.toggle('collapse');

@@ -3,23 +3,16 @@
   border-right: 1px solid rgb(218, 214, 214);
 }
 .img-avatar {
-  margin-left: 1em;
-  margin-right: 1em;
   cursor: pointer;
   border-radius: 50%;
 }
 
-.avatar-container {
+.profile-container {
   cursor: pointer;
+  padding: 0;
+  margin-left: 1em;
 }
 
-#file {
-  display: none;
-}
-
-label {
-  margin: 0;
-}
 
 @media (max-width: 767px) {
   .avatar-container {
