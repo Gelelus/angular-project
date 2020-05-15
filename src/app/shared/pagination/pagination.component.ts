@@ -1,47 +1,46 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  SimpleChanges,
-  OnChanges,
-} from '@angular/core';
-
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css'],
 })
-export class PaginationComponent implements OnInit, OnChanges {
+export class PaginationComponent implements OnInit {
   @Input() itemsNumber: number;
-  @Output() changePage = new EventEmitter<{ start: number; end: number }>(true);
+  @Output() changePage = new EventEmitter<{
+    startItem: number;
+    previousPage: number;
+  }>(true);
   @Input() initialPage = 1;
   @Input() pageSize = 10;
   @Input() maxPages = 5;
+  private previousPage = -1;
 
   pager: any = {};
 
   ngOnInit() {
-    
     if (this.itemsNumber) {
       this.setPage(this.initialPage);
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    
-    if (changes.itemsNumber.currentValue !== changes.itemsNumber.previousValue) {
-      this.setPage(this.initialPage);
-    }
-  }
-
   setPage(page: number) {
-   
-    this.pager = this.paginate(this.itemsNumber, page, this.pageSize, this.maxPages);
+    if (this.previousPage === page) {
+      return;
+    }
 
-    this.changePage.emit({start: this.pager.startIndex, end: this.pager.endIndex + 1});
+    this.pager = this.paginate(
+      this.itemsNumber,
+      page,
+      this.pageSize,
+      this.maxPages
+    );
+
+    this.changePage.emit({
+      startItem: this.pager.startIndex,
+      previousPage: this.previousPage
+    });
+    this.previousPage = page;
   }
 
   paginate(
@@ -52,14 +51,14 @@ export class PaginationComponent implements OnInit, OnChanges {
   ) {
     // calculate total pages
     let totalPages = Math.ceil(totalItems / pageSize);
-  
+
     // ensure current page isn't out of range
-    if (currentPage < 1) { 
-        currentPage = 1; 
-    } else if (currentPage > totalPages) { 
-        currentPage = totalPages; 
+    if (currentPage < 1) {
+      currentPage = 1;
+    } else if (currentPage > totalPages) {
+      currentPage = totalPages;
     }
-  
+
     let startPage: number, endPage: number;
     if (totalPages <= maxPages) {
       // total pages less than max so show all pages
@@ -83,15 +82,14 @@ export class PaginationComponent implements OnInit, OnChanges {
         endPage = currentPage + maxPagesAfterCurrentPage;
       }
     }
-  
 
     let startIndex = (currentPage - 1) * pageSize;
     let endIndex = Math.min(startIndex + pageSize - 1, totalItems - 1);
-  
-    
-    let pages = Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i);
-  
-    
+
+    let pages = Array.from(Array(endPage + 1 - startPage).keys()).map(
+      (i) => startPage + i
+    );
+
     return {
       totalItems: totalItems,
       currentPage: currentPage,
@@ -101,7 +99,7 @@ export class PaginationComponent implements OnInit, OnChanges {
       endPage: endPage,
       startIndex: startIndex,
       endIndex: endIndex,
-      pages: pages
+      pages: pages,
     };
   }
 }

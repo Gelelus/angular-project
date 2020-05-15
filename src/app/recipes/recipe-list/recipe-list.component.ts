@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { Recipe } from '../recipe.model';
 import * as fromApp from 'src/app/store/app.reducer';
+import * as RecipeActions from '../store/recipe.actions';
 
 @Component({
   selector: 'app-recipe-list',
@@ -14,7 +15,8 @@ import * as fromApp from 'src/app/store/app.reducer';
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[];
-  recipesNumber = 6;//////////chnage 
+  recipesNumber = 6; //////////общее количество рецептов
+  recipesOnPage = 5;
   private RecipeSubscription: Subscription;
 
   constructor(
@@ -27,21 +29,33 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     this.RecipeSubscription = this.store
       .pipe(
         select('recipes'),
-        map((recipesState) => recipesState.recipes)
+        map((recipesState) => {
+          return recipesState.recipes;
+        })
       )
       .subscribe((recipes: Recipe[]) => {
-        
         this.recipes = recipes;
       });
-    
   }
 
   ngOnDestroy() {
     this.RecipeSubscription.unsubscribe();
   }
 
-  onChangePage(event){
-    console.log(event)
+  onChangePage(event: { startItem: number; previousPage: number }) {
+    console.log(event);
+    if (event.previousPage !== -1) {
+      this.router
+        .navigate(['/recipes'], {
+          queryParams: {
+            startItem: event.startItem,
+            limit: this.recipesOnPage,
+          },
+        })
+        .then(() => {
+          this.store.dispatch(new RecipeActions.FetchRecipes());
+        });
+    }
   }
 
   onNewRecipe() {

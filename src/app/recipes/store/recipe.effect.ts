@@ -1,7 +1,7 @@
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { switchMap, map, withLatestFrom, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 import * as RecipesActions from './recipe.actions';
@@ -15,7 +15,16 @@ export class RecipeEffects {
   fetchRecipes = this.actions$.pipe(
     ofType(RecipesActions.FETCH_RECIPES),
     switchMap(() => {
-      return this.http.get<Recipe[]>(environment.DataBaseUrl + 'recipes');
+      const url = window.location.href;
+      let httpParams = new HttpParams()
+        .set('startItem', '0')
+        .append('limit', '5');
+      if (url.includes('?')) {
+        httpParams = new HttpParams({ fromString: url.split('?')[1] });
+      }
+      return this.http.get<Recipe[]>(environment.DataBaseUrl + 'recipes', {
+        params: httpParams,
+      });
     }),
     map((recipes) => {
       return recipes.map((recipe) => {

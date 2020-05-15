@@ -13,6 +13,7 @@
     <app-pagination
       *ngIf="recipesNumber > 5"
       [itemsNumber]="recipesNumber"
+      [pageSize]="recipesOnPage"
       (changePage)="onChangePage($event)"
     ></app-pagination>
   </div>

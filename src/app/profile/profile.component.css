@@ -89,8 +89,12 @@ body{
   background-color: #fff;
   box-shadow: 0 12px 20px 1px rgba(64, 64, 64, .11);
 }
+.btn-style-1{
+  margin-left: 1em;
+}
 .btn-style-1.btn-white {
     background-color: #fff;
+    
 }
 .list-group-item i {
     display: inline-block;
