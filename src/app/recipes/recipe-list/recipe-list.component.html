@@ -11,8 +11,9 @@
       [recipe]="recipeEl"
     ></app-recipe-item>
     <app-pagination
-      *ngIf="recipesNumber > 5"
+      *ngIf="recipesNumber > recipesOnPage"
       [itemsNumber]="recipesNumber"
+      [initialPage]="recipesInitialPage"
       [pageSize]="recipesOnPage"
       (changePage)="onChangePage($event)"
     ></app-pagination>

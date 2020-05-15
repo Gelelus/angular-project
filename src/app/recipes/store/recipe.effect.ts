@@ -22,20 +22,26 @@ export class RecipeEffects {
       if (url.includes('?')) {
         httpParams = new HttpParams({ fromString: url.split('?')[1] });
       }
-      return this.http.get<Recipe[]>(environment.DataBaseUrl + 'recipes', {
-        params: httpParams,
-      });
+      return this.http.get<{ recipes: Recipe[]; maxRecipes: number }>(
+        environment.DataBaseUrl + 'recipes',
+        {
+          params: httpParams,
+        }
+      );
     }),
-    map((recipes) => {
-      return recipes.map((recipe) => {
-        return {
-          ...recipe,
-          ingredients: recipe.ingredients ? recipe.ingredients : [],
-        };
-      });
+    map((postData) => {
+      return {
+        recipes: postData.recipes.map((recipe) => {
+          return {
+            ...recipe,
+            ingredients: recipe.ingredients ? recipe.ingredients : [],
+          };
+        }),
+        maxRecipes: postData.maxRecipes,
+      };
     }),
-    map((recipes) => {
-      return new RecipesActions.SetRecipes(recipes);
+    map((data) => {
+      return new RecipesActions.SetRecipes(data);
     })
   );
 

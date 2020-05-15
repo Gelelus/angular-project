@@ -15,8 +15,12 @@ import * as RecipeActions from '../store/recipe.actions';
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[];
-  recipesNumber = 6; //////////общее количество рецептов
+  recipesNumber: number;
   recipesOnPage = 5;
+  recipesInitialPage =
+    Math.floor(
+      +this.route.snapshot.queryParamMap.get('startItem') / this.recipesOnPage
+    ) + 1;
   private RecipeSubscription: Subscription;
 
   constructor(
@@ -27,14 +31,10 @@ export class RecipeListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.RecipeSubscription = this.store
-      .pipe(
-        select('recipes'),
-        map((recipesState) => {
-          return recipesState.recipes;
-        })
-      )
-      .subscribe((recipes: Recipe[]) => {
-        this.recipes = recipes;
+      .pipe(select('recipes'))
+      .subscribe((recipesState) => {
+        this.recipes = recipesState.recipes;
+        this.recipesNumber = recipesState.maxRecipes;
       });
   }
 
@@ -43,7 +43,6 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   }
 
   onChangePage(event: { startItem: number; previousPage: number }) {
-    console.log(event);
     if (event.previousPage !== -1) {
       this.router
         .navigate(['/recipes'], {

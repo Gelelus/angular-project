@@ -3,10 +3,12 @@ import * as RecipesActions from './recipe.actions';
 
 export interface State {
   recipes: Recipe[];
+  maxRecipes: number;
 }
 
 const initialState: State = {
   recipes: [],
+  maxRecipes: null
 };
 
 export function recipeReducer(
@@ -17,7 +19,8 @@ export function recipeReducer(
     case RecipesActions.SET_RECIPES:
       return {
         ...state,
-        recipes: [...action.payload],
+        recipes: [...action.payload.recipes],
+        maxRecipes: action.payload.maxRecipes
       };
 
     case RecipesActions.ADD_RECIPE:

@@ -15,7 +15,7 @@ export const STORE_RECIPES = '[Recipes] STORE_RECIPES';
 export class SetRecipes implements Action {
   readonly type = SET_RECIPES;
 
-  constructor(public payload: Recipe[]) {}
+  constructor(public payload: { recipes: Recipe[]; maxRecipes: number }) {}
 }
 
 export class FetchRecipes implements Action {
@@ -34,12 +34,12 @@ export class AddRecipeToDataBase implements Action {
 
 export class UpdateRecipe implements Action {
   readonly type = UPDATE_RECIPE;
-  constructor(public payload: Recipe ) {}
+  constructor(public payload: Recipe) {}
 }
 
 export class UpdateRecipeOnDataBase implements Action {
   readonly type = UPDATE_RECIPE_ON_DB;
-  constructor(public payload: Recipe ) {}
+  constructor(public payload: Recipe) {}
 }
 
 export class DeleteRecipe implements Action {
