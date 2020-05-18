@@ -26,6 +26,7 @@ export function recipeReducer(
     case RecipesActions.ADD_RECIPE:
       return {
         ...state,
+        maxRecipes: state.maxRecipes+1,
         recipes: [...state.recipes, action.payload],
       };
 
@@ -42,6 +43,7 @@ export function recipeReducer(
     case RecipesActions.DELETE_RECIPE:
       return {
         ...state,
+        maxRecipes: state.maxRecipes-1,
         recipes: state.recipes.filter((res) => res._id !== action.payload),
       };
 

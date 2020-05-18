@@ -7,6 +7,7 @@ import { Recipe } from '../recipe.model';
 import * as fromApp from '../../store/app.reducer';
 import * as RecipesActions from '../store/recipe.actions';
 import * as ShopingListActions from '../../shoping-list/store/shoping-list.actions';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -16,6 +17,7 @@ import * as ShopingListActions from '../../shoping-list/store/shoping-list.actio
 export class RecipeDetailComponent implements OnInit, OnDestroy {
   recipe: Recipe;
   id: string;
+  serverUrl = environment.DataBaseUrl;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,7 +34,7 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
         switchMap((id) => {
           this.id = id;
           return this.store.pipe(select('recipes'));
-        }),    
+        }),
         map((recipesState) => {
           return recipesState.recipes.find((recipe) => {
             return recipe._id === this.id;
@@ -51,7 +53,10 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
   }
 
   onEditRecipe() {
-    this.router.navigate(['edit'], { relativeTo: this.route });
+    this.router.navigate(['edit'], {
+      relativeTo: this.route,
+      queryParamsHandling: 'merge',
+    });
   }
 
   onDeleteRecipe() {

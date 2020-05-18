@@ -61,9 +61,18 @@ export class RecipeEffects {
   AddRecipeToDataBase = this.actions$.pipe(
     ofType(RecipesActions.ADD_RECIPE_TO_DB),
     switchMap((actionData: RecipesActions.AddRecipeToDataBase) => {
+      const postData = new FormData();
+      postData.append('description', actionData.payload.description);
+      postData.append('image', actionData.payload.image, 'image');
+      postData.append(
+        'ingredients',
+        JSON.stringify(actionData.payload.ingredients)
+      );
+      postData.append('name', actionData.payload.name);
+
       return this.http.post<Recipe>(
         environment.DataBaseUrl + 'recipes',
-        actionData.payload
+        postData
       );
     }),
     map((recipe) => {
@@ -76,9 +85,28 @@ export class RecipeEffects {
   UpdateRecipeOnDataBase = this.actions$.pipe(
     ofType(RecipesActions.UPDATE_RECIPE_ON_DB),
     switchMap((actionData: RecipesActions.UpdateRecipeOnDataBase) => {
+      let postData;
+      if (actionData.payload.image) {
+        postData = new FormData();
+        postData.append('description', actionData.payload.description);
+        postData.append('image', actionData.payload.image, 'image');
+        postData.append(
+          'ingredients',
+          JSON.stringify(actionData.payload.ingredients)
+        );
+        postData.append('name', actionData.payload.name);
+        postData.append('_id', actionData.payload._id);
+      } else {
+        postData = {
+          _id: actionData.payload._id,
+          name: actionData.payload.name,
+          description: actionData.payload.description,
+          ingredients: actionData.payload.ingredients,
+        };
+      }
       return this.http.put<Recipe>(
         environment.DataBaseUrl + 'recipes',
-        actionData.payload
+        postData
       );
     }),
     map((recipe) => {

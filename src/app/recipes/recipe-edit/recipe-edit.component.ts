@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs';
 
 import * as fromApp from '../../store/app.reducer';
 import * as RecipeActions from '../store/recipe.actions';
+import { mimeType } from 'src/app/shared/mime-type.validator';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -16,7 +18,9 @@ import * as RecipeActions from '../store/recipe.actions';
 export class RecipeEditComponent implements OnInit, OnDestroy {
   id: string;
   editMode = false;
+  EditImage = false;
   recipeForm: FormGroup;
+  imagePreview: string;
   private recipeSub: Subscription;
 
   constructor(
@@ -33,9 +37,21 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     });
   }
 
+  onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.recipeForm.patchValue({ image: file });
+    this.recipeForm.get('image').updateValueAndValidity();
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+    this.EditImage = false;
+  }
+
   onSubmit() {
     if (this.editMode) {
-      
       this.store.dispatch(
         new RecipeActions.UpdateRecipeOnDataBase({
           ...this.recipeForm.value,
@@ -72,8 +88,8 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
 
   private initForm() {
     let recipeName = '';
-    let recipeImagePath = '';
     let recipeDescription = '';
+    let image = null;
     let recipeIngredients = new FormArray([]);
 
     if (this.editMode) {
@@ -85,8 +101,9 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
           })
         )
         .subscribe((recipe) => {
+          this.imagePreview = environment.DataBaseUrl + recipe.imagePath;
+          this.EditImage = true;
           recipeName = recipe.name;
-          recipeImagePath = recipe.imagePath;
           recipeDescription = recipe.description;
           if (recipe['ingredients']) {
             for (let ingredient of recipe.ingredients) {
@@ -105,11 +122,12 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     }
 
     this.recipeForm = new FormGroup({
+      image: new FormControl(image, [Validators.required], [mimeType]),
       name: new FormControl(recipeName, Validators.required),
-      imagePath: new FormControl(recipeImagePath, Validators.required),
       description: new FormControl(recipeDescription, Validators.required),
       ingredients: recipeIngredients,
     });
+    
   }
 
   ngOnDestroy() {
