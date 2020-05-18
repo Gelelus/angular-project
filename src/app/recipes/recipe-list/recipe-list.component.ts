@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { map } from 'rxjs/operators';
 
 import { Recipe } from '../recipe.model';
 import * as fromApp from 'src/app/store/app.reducer';
@@ -16,11 +15,9 @@ import * as RecipeActions from '../store/recipe.actions';
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[];
   recipesNumber: number;
-  recipesOnPage = 5;
-  recipesInitialPage =
-    Math.floor(
-      +this.route.snapshot.queryParamMap.get('startItem') / this.recipesOnPage
-    ) + 1;
+  recipesOnPage: number;
+  recipesInitialPage: number;
+
   private RecipeSubscription: Subscription;
 
   constructor(
@@ -35,6 +32,12 @@ export class RecipeListComponent implements OnInit, OnDestroy {
       .subscribe((recipesState) => {
         this.recipes = recipesState.recipes;
         this.recipesNumber = recipesState.maxRecipes;
+        this.recipesOnPage = recipesState.recipesOnPage;
+        this.recipesInitialPage =
+          Math.floor(
+            +this.route.snapshot.queryParamMap.get('startItem') /
+              recipesState.recipesOnPage
+          ) + 1;
       });
   }
 
@@ -52,7 +55,9 @@ export class RecipeListComponent implements OnInit, OnDestroy {
           },
         })
         .then(() => {
-          this.store.dispatch(new RecipeActions.FetchRecipes());
+          this.store.dispatch(
+            new RecipeActions.FetchRecipes({ startItem: 0, limit: 5 })
+          );
         });
     }
   }

@@ -12,6 +12,7 @@ export const UPDATE_RECIPE_ON_DB = '[Recipes] UPDATE_RECIPE_ON_DB';
 export const DELETE_RECIPE = '[Recipes] DELETE_RECIPE';
 export const DELETE_RECIPE_ON_DB = '[Recipes] DELETE_RECIPE_ON_DB';
 export const STORE_RECIPES = '[Recipes] STORE_RECIPES';
+export const CRUD_FAIL = '[Recipes] CRUD_FAIL';
 
 export class SetRecipes implements Action {
   readonly type = SET_RECIPES;
@@ -21,6 +22,7 @@ export class SetRecipes implements Action {
 
 export class FetchRecipes implements Action {
   readonly type = FETCH_RECIPES;
+  constructor(public payload: { startItem: number; limit: number }) {}
 }
 
 export class AddRecipe implements Action {
@@ -42,18 +44,20 @@ export class AddRecipeToDataBase implements Action {
 
 export class UpdateRecipe implements Action {
   readonly type = UPDATE_RECIPE;
-  constructor(public payload: Recipe) {}
+  constructor(public payload: Recipe[]) {}
 }
 
 export class UpdateRecipeOnDataBase implements Action {
   readonly type = UPDATE_RECIPE_ON_DB;
-  constructor(public payload: {
-    description: string;
-    image: File;
-    ingredients: Ingredient[];
-    name: string;
-    _id: string;
-  }) {}
+  constructor(
+    public payload: {
+      description: string;
+      image: File;
+      ingredients: Ingredient[];
+      name: string;
+      _id: string;
+    }
+  ) {}
 }
 
 export class DeleteRecipe implements Action {
@@ -70,6 +74,11 @@ export class StoreRecipes implements Action {
   readonly type = STORE_RECIPES;
 }
 
+export class CrudFail implements Action {
+  readonly type = CRUD_FAIL;
+  constructor(public payload: string) {}
+}
+
 export type RecipesActions =
   | SetRecipes
   | FetchRecipes
@@ -79,4 +88,5 @@ export type RecipesActions =
   | StoreRecipes
   | AddRecipeToDataBase
   | UpdateRecipeOnDataBase
-  | DeleteRecipeOnDataBase;
+  | DeleteRecipeOnDataBase
+  | CrudFail;

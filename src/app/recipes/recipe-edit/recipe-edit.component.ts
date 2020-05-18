@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
-import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 import * as fromApp from '../../store/app.reducer';
 import * as RecipeActions from '../store/recipe.actions';
 import { mimeType } from 'src/app/shared/mime-type.validator';
-import { environment } from 'src/environments/environment';
+import * as RecipesSelectors from '../store/recipe.selectors';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -94,12 +94,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
 
     if (this.editMode) {
       this.recipeSub = this.store
-        .pipe(
-          select('recipes'),
-          map((recipeState) => {
-            return recipeState.recipes.find((recipe) => recipe._id === this.id);
-          })
-        )
+        .pipe(select(RecipesSelectors.findRecipeById, { id: this.id }))
         .subscribe((recipe) => {
           this.imagePreview = environment.DataBaseUrl + recipe.imagePath;
           this.EditImage = true;
@@ -127,7 +122,6 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
       description: new FormControl(recipeDescription, Validators.required),
       ingredients: recipeIngredients,
     });
-    
   }
 
   ngOnDestroy() {

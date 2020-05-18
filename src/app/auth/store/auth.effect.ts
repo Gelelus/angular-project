@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, Data } from '@angular/router';
 
 import * as AuthActions from './auth.actions';
 import { User } from '../user.model';
@@ -16,17 +16,35 @@ export interface AuthResponseDate {
   expiresIn: string;
   localId: string;
   avatarUrl: string;
+  date: string;
+  firstName: string;
+  secondName: string;
+  phoneNumber: string
 }
 
 const handleAuthentication = (
   expiresIn: number,
   email: string,
-  userId: string, 
+  userId: string,
   token: string,
-  avatarUrl: string
+  avatarUrl: string,
+  firstName: string,
+  secondName: string,
+  date: string,
+  phoneNumber: string
 ) => {
   const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
-  const user = new User(email, userId, token, expirationDate,avatarUrl);
+  const user = new User(
+    email,
+    userId,
+    token,
+    expirationDate,
+    avatarUrl,
+    firstName,
+    secondName,
+    date,
+    phoneNumber
+  );
   localStorage.setItem('UserData', JSON.stringify(user));
   return new AuthActions.AuthenticateSuccess({
     email: email,
@@ -34,14 +52,17 @@ const handleAuthentication = (
     token: token,
     expirationDate: expirationDate,
     redirect: true,
-    avatarImgUrl: avatarUrl
+    avatarImgUrl: avatarUrl,
+    firstName: firstName,
+    secondName: secondName,
+    date: date,
+    phoneNumber: phoneNumber
   });
 };
 
 const handleError = (errRes: any) => {
   console.log(errRes);
-  //незабыть апнуть
-  //let errorMessage = 'An error occured';
+  
 
   return of(new AuthActions.AuthenticateFail(errRes.error.error));
 };
@@ -67,7 +88,11 @@ export class AuthEffects {
               resData.email,
               resData.localId,
               resData.idToken,
-              resData.avatarUrl
+              resData.avatarUrl,
+              resData.firstName,
+              resData.secondName,
+              resData.date,
+              resData.phoneNumber
             );
           }),
           catchError((errorRes) => {
@@ -91,12 +116,17 @@ export class AuthEffects {
             this.authService.setLogoutTimer(+resData.expiresIn * 1000);
           }),
           map((resData) => {
+            console.log(resData);
             return handleAuthentication(
               +resData.expiresIn,
               resData.email,
               resData.localId,
               resData.idToken,
-              resData.avatarUrl
+              resData.avatarUrl,
+              resData.firstName,
+              resData.secondName,
+              resData.date,
+              resData.phoneNumber
             );
           }),
           catchError((errorRes) => {
@@ -126,6 +156,10 @@ export class AuthEffects {
         _token: string;
         _tokenExpirationDate: string;
         avatarImgUrl: string;
+        firstName: string;
+        secondName: string;
+        date: string;
+        phoneNumber: string;
       } = JSON.parse(localStorage.getItem('UserData'));
 
       if (!userData) {
@@ -136,7 +170,11 @@ export class AuthEffects {
           userData.id,
           userData._token,
           new Date(userData._tokenExpirationDate),
-          userData.avatarImgUrl
+          userData.avatarImgUrl,
+          userData.firstName,
+          userData.secondName,
+          userData.date,
+          userData.phoneNumber
         );
 
         if (loadedUser.token) {
@@ -151,7 +189,11 @@ export class AuthEffects {
             token: loadedUser.token,
             expirationDate: new Date(userData._tokenExpirationDate),
             redirect: false,
-            avatarImgUrl: loadedUser.avatarImgUrl
+            avatarImgUrl: loadedUser.avatarImgUrl,
+            firstName: loadedUser.firstName,
+            secondName: loadedUser.secondName,
+            date: loadedUser.date,
+            phoneNumber: loadedUser.phoneNumber
           });
         }
         return { type: 'none' };
