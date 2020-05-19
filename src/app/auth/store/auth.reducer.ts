@@ -5,12 +5,14 @@ export interface State {
   user: User;
   authError: string;
   loading: boolean;
+
 }
 
 const initialState: State = {
   user: null,
   authError: null,
   loading: false,
+
 };
 
 export function authReducer(
@@ -58,6 +60,13 @@ export function authReducer(
         loading: false,
         authError: action.payload,
       };
+
+      case AuthActions.UPDATE_AVATAR_SUCCESS:
+        return {
+          ...state,
+          user: { ...state.user, avatarImgUrl: action.payload } as User,
+        };
+   
 
     default:
       return state;

@@ -13,6 +13,7 @@
           <div class="author-card-avatar">
             <img [src]="imgAvatarUrl" [alt]="name" />
           </div>
+
           <div class="author-card-details">
             <h5 class="author-card-name text-lg">{{ name }}</h5>
             <span class="author-card-position"
@@ -20,6 +21,22 @@
             >
           </div>
         </div>
+        <button
+          type="button"
+          class="btn btn-img-picker"
+          (click)="filePicker.click()"
+        >
+          Сhoose avatar
+        </button>
+        <button
+          type="button"
+          class="btn btn-img-picker"
+          (click)="onImageChange()"
+          *ngIf="ImgEdit"
+        >
+          Change avatar
+        </button>
+        <input type="file" #filePicker (change)="onImagePicked($event)" />
       </div>
       <div class="wizard">
         <nav class="list-group list-group-flush">

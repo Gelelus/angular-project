@@ -179,3 +179,11 @@ a.list-group-item, .list-group-item-action {
     background-color: transparent;
     content: '';
 }
+
+input[type = file] {
+  display: none;
+}
+
+.btn-img-picker{
+  margin-left: 0.5em;
+}

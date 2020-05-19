@@ -7,6 +7,8 @@ export const AUTHENTICATE_FAIL = '[Auth] AUTHENTICATE_FAIL';
 export const AUTO_LOGIN = '[Auth] AUTO_LOGIN';
 export const LOGOUT = '[Auth] LOGOUT';
 export const UPDATE_AUTH_DATA = '[Auth] UPDATE_AUTH_DATA';
+export const UPDATE_AUTH_DATA_AVATAR = '[Auth] UPDATE_AUTH_DATA_IMG';
+export const UPDATE_AVATAR_SUCCESS = '[Auth] UPDATE_AVATAR_SUCCESS';
 
 export class AuthenticateSuccess implements Action {
   readonly type = AUTHENTICATE_SUCCESS;
@@ -75,6 +77,16 @@ export class UpdateAuthData implements Action {
   ) {}
 }
 
+export class UpdateAuthDataAvatar implements Action {
+  readonly type = UPDATE_AUTH_DATA_AVATAR;
+  constructor(public payload: File) {}
+}
+
+export class UpdateAvatarSuccess implements Action {
+  readonly type = UPDATE_AVATAR_SUCCESS;
+  constructor(public payload: string) {}
+}
+
 export type AuthActions =
   | AuthenticateSuccess
   | Logout
@@ -82,4 +94,6 @@ export type AuthActions =
   | AuthenticateFail
   | SignStart
   | AutoLogin
-  | UpdateAuthData;
+  | UpdateAuthData
+  | UpdateAuthDataAvatar
+  | UpdateAvatarSuccess;

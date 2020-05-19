@@ -3,10 +3,10 @@ import { FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import * as fromApp from '../store/app.reducer';
 import * as AuthSelectors from '../auth/store/auth.selectors';
+import * as AuthActions from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +19,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
   registratedDate: string;
   profileForm: FormGroup;
   userSub: Subscription;
+  ImgEdit = false;
+  ImgFile: File;
 
   constructor(private store: Store<fromApp.AppState>) {}
 
@@ -36,6 +38,23 @@ export class ProfileComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  onImageChange() {
+    this.store.dispatch(new AuthActions.UpdateAuthDataAvatar(this.ImgFile));
+    this.ImgEdit = false;
+  }
+
+  onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.ImgFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imgAvatarUrl = reader.result as string;
+      this.ImgEdit = true;
+    };
+    reader.readAsDataURL(file);
+  }
+
   ngOnDestroy() {
     this.userSub.unsubscribe();
   }
