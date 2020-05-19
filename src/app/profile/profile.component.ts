@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import * as fromApp from '../store/app.reducer';
+import * as AuthSelectors from '../auth/store/auth.selectors';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +15,7 @@ import * as fromApp from '../store/app.reducer';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   imgAvatarUrl: string;
-  name:string;
+  name: string;
   registratedDate: string;
   profileForm: FormGroup;
   userSub: Subscription;
@@ -23,16 +24,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userSub = this.store
-      .pipe(
-        select('auth'),
-        map((authState) => authState.user)
-      )
+      .pipe(select(AuthSelectors.user))
       .subscribe((user) => {
         if (user) {
-          
-          this.imgAvatarUrl = environment.DataBaseUrl +  user.avatarImgUrl;
-          this.name = user.name
-          this.registratedDate = new Date(user.date).toISOString().slice(0, 16).replace('T',' ')
+          this.imgAvatarUrl = environment.DataBaseUrl + user.avatarImgUrl;
+          this.name = user.name;
+          this.registratedDate = new Date(user.date)
+            .toISOString()
+            .slice(0, 16)
+            .replace('T', ' ');
         }
       });
   }

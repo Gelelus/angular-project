@@ -179,3 +179,13 @@ a.list-group-item, .list-group-item-action {
     background-color: transparent;
     content: '';
 }
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+.password-message{
+  color: #ff7355;
+  float: right;
+  margin-right: 1em;
+}

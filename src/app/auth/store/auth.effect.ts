@@ -19,7 +19,7 @@ export interface AuthResponseDate {
   date: string;
   firstName: string;
   secondName: string;
-  phoneNumber: string
+  phoneNumber: string;
 }
 
 const handleAuthentication = (
@@ -56,13 +56,12 @@ const handleAuthentication = (
     firstName: firstName,
     secondName: secondName,
     date: date,
-    phoneNumber: phoneNumber
+    phoneNumber: phoneNumber,
   });
 };
 
 const handleError = (errRes: any) => {
   console.log(errRes);
-  
 
   return of(new AuthActions.AuthenticateFail(errRes.error.error));
 };
@@ -116,7 +115,36 @@ export class AuthEffects {
             this.authService.setLogoutTimer(+resData.expiresIn * 1000);
           }),
           map((resData) => {
-            console.log(resData);
+            return handleAuthentication(
+              +resData.expiresIn,
+              resData.email,
+              resData.localId,
+              resData.idToken,
+              resData.avatarUrl,
+              resData.firstName,
+              resData.secondName,
+              resData.date,
+              resData.phoneNumber
+            );
+          }),
+          catchError((errorRes) => {
+            return handleError(errorRes);
+          })
+        );
+    })
+  );
+
+  @Effect()
+  authUpdateData = this.actions$.pipe(
+    ofType(AuthActions.UPDATE_AUTH_DATA),
+    switchMap((authData: AuthActions.UpdateAuthData) => {
+      return this.http
+        .put<AuthResponseDate>(environment.DataBaseUrl + 'users', authData.payload)
+        .pipe(
+          tap((resData) => {
+            this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+          }),
+          map((resData) => {
             return handleAuthentication(
               +resData.expiresIn,
               resData.email,
@@ -193,7 +221,7 @@ export class AuthEffects {
             firstName: loadedUser.firstName,
             secondName: loadedUser.secondName,
             date: loadedUser.date,
-            phoneNumber: loadedUser.phoneNumber
+            phoneNumber: loadedUser.phoneNumber,
           });
         }
         return { type: 'none' };
