@@ -1,11 +1,11 @@
 <br />
-<div class="row">
+<div class="row" *ngIf="recipeObs | async as recipe">
   <div class="col-xs-12">
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
           <button
-            [disabled]="!(recipeForm.valid || EditImage)"
+            [disabled]="!(recipeForm.valid || editImage)"
             type="submit"
             class="btn btn-success"
           >
@@ -48,7 +48,7 @@
       <div class="row" *ngIf="imagePreview !== '' && imagePreview">
         <div class="col-xs-12">
           <img
-            [src]="imagePreview"
+            [src]="serverUrl + recipe.imagePath"
             [alt]="recipeForm.value.name"
             class="img-responsive"
           />

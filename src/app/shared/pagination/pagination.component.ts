@@ -10,6 +10,7 @@ export class PaginationComponent implements OnInit {
   @Output() changePage = new EventEmitter<{
     startItem: number;
     previousPage: number;
+    limit: number
   }>(true);
   @Input() initialPage = 1;
   @Input() pageSize = 10;
@@ -39,7 +40,8 @@ export class PaginationComponent implements OnInit {
 
     this.changePage.emit({
       startItem: this.pager.startIndex,
-      previousPage: this.previousPage
+      previousPage: this.previousPage,
+      limit: this.pageSize
     });
     this.previousPage = page;
   }

@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class RecipeItemComponent implements OnInit {
   @Input() recipe: Recipe;
-  ServerUrl = environment.DataBaseUrl;
+  serverUrl = environment.DataBaseUrl;
 
   ngOnInit(): void {
   

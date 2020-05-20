@@ -50,13 +50,7 @@ export class UpdateRecipe implements Action {
 export class UpdateRecipeOnDataBase implements Action {
   readonly type = UPDATE_RECIPE_ON_DB;
   constructor(
-    public payload: {
-      description: string;
-      image: File;
-      ingredients: Ingredient[];
-      name: string;
-      _id: string;
-    }
+     public payload:Recipe
   ) {}
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component} from '@angular/core';
 import {  Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 
@@ -10,12 +10,8 @@ import * as RecipesSelectors from './store/recipe.selectors';
   templateUrl: './recipes.component.html',
   styleUrls: ['./recipes.component.css'],
 })
-export class RecipesComponent implements OnInit{
-  error: Observable<string> = null;
+export class RecipesComponent {
+  error: Observable<string> = this.store.pipe(select(RecipesSelectors.error))
   constructor(private store: Store<fromApp.AppState>) {}
   
-  ngOnInit(): void {
-    this.error = this.store.pipe(select(RecipesSelectors.error))
-  }
- 
 }

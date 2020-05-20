@@ -5,16 +5,16 @@
 </div>
 <hr />
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-xs-12" *ngIf="recipesParmsObs | async as recipesParms">
     <app-recipe-item
-      *ngFor="let recipeEl of recipes"
+      *ngFor="let recipeEl of recipesParms.recipes"
       [recipe]="recipeEl"
     ></app-recipe-item>
     <app-pagination
-      *ngIf="recipesNumber > recipesOnPage"
-      [itemsNumber]="recipesNumber"
-      [initialPage]="recipesInitialPage"
-      [pageSize]="recipesOnPage"
+      *ngIf="recipesParms.maxRecipes > recipesParms.recipesOnPage"
+      [itemsNumber]="recipesParms.maxRecipes"
+      [initialPage]="InitialPage(recipesParms.recipesOnPage)"
+      [pageSize]="recipesParms.recipesOnPage"
       (changePage)="onChangePage($event)"
     ></app-pagination>
   </div>

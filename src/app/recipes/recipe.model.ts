@@ -4,14 +4,14 @@ export class Recipe {
   public _id: string;
   public name: string;
   public description: string;
-  public imagePath: string;
+  public imagePath?: string;
   public ingredients: Ingredient[];
-
+  public image?: File;
   constructor(
     name: string,
     desc: string,
+    Ingredients: Ingredient[],
     imagePath: string,
-    Ingredients: Ingredient[]
   ) {
     this.name = name;
     this.description = desc;
