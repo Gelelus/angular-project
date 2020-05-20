@@ -1,7 +1,6 @@
-<ul class="category-list">
-    <li><a >тестовый товар </a><span>5</span></li>
-    <li><a >тестовый товар </a><span>3</span></li>
-    <li><a >тестовый товар </a><span>2</span></li>
-    <li><a >тестовый товар </a><span>2</span></li>
-    <li><a >тестовый товар </a><span>2</span></li>
-  </ul>
+<div class="col-lg-8 pb-5" *ngIf="ordersObs | async as orders">
+  <div *ngFor="let order of orders; let i = index">
+    <h5>Order {{ i + 1 }}</h5>
+    <app-order-item [order]="order"></app-order-item>
+  </div>
+</div>

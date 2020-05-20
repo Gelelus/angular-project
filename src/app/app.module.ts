@@ -16,6 +16,7 @@ import { AuthEffects } from './auth/store/auth.effect';
 import { environment } from 'src/environments/environment';
 import { RecipeEffects } from './recipes/store/recipe.effect';
 import { ShopingListEffects } from './shoping-list/store/shoping-list.effects';
+import { ProfileEffects } from './profile/store/profile.effects';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -24,7 +25,7 @@ import { ShopingListEffects } from './shoping-list/store/shoping-list.effects';
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects, RecipeEffects, ShopingListEffects]),
+    EffectsModule.forRoot([AuthEffects, RecipeEffects, ShopingListEffects, ProfileEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     // StoreRouterConnectingModule.forRoot(), // авто отправка экшенов при навигации
     SharedModule,

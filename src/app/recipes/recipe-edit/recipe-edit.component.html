@@ -1,5 +1,5 @@
 <br />
-<div class="row" *ngIf="recipeObs | async as recipe">
+<div class="row" *ngIf="!editMode || (recipeObs | async) as recipe">
   <div class="col-xs-12">
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
       <div class="row">

@@ -1,15 +1,17 @@
 import * as ProfileActions from './profile.actions';
-import { Ingredient } from 'src/app/shared/ingredient.model';
 import { Recipe } from 'src/app/recipes/recipe.model';
+import { Order } from '../user-orders/order.model';
 
 export interface State {
-  orders: Ingredient[];
+  orders: Order[];
   recipes: Recipe[];
+  error: string
 }
 
 const initialState: State = {
   orders: null,
   recipes: null,
+  error: null
 };
 
 export function profileReducer(
@@ -28,6 +30,12 @@ export function profileReducer(
         ...state,
         recipes: action.payload,
       };
+
+    case ProfileActions.CRUD_FAIL:
+    return {
+      ...state,
+      error: action.payload,
+    };
 
     default:
       return state;

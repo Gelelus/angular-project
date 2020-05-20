@@ -18,7 +18,7 @@ const handleError = (errRes: any) => {
 
 @Injectable()
 export class ShopingListEffects {
-  @Effect({dispatch: false})
+  @Effect()
   storeOrder = this.actions$.pipe(
     ofType(ShopingListActions.STORE_INGREDIENT),
     withLatestFrom(this.store.pipe(select(ShopingListSelectors.ingredients))),
@@ -26,7 +26,7 @@ export class ShopingListEffects {
       return this.http.post(environment.DataBaseUrl + 'orders', ingredients);
     }),
     map(() => {
-      return this.store.dispatch(new ShopingListActions.StoreSuccess());
+      return new ShopingListActions.StoreSuccess();
     }),
     catchError((errorRes) => {
       return handleError(errorRes);

@@ -1,6 +1,6 @@
 import { Ingredient } from '../../shared/ingredient.model';
 import * as ShoppingListActions from './shoping-list.actions';
-import { ApplicationModule } from '@angular/core';
+
 
 export interface State {
   ingredients: Ingredient[];
@@ -10,11 +10,7 @@ export interface State {
 }
 
 const initialState: State = {
-  ingredients: [
-    new Ingredient('testIngredient', 5),
-    new Ingredient('testIngredient', 5),
-    new Ingredient('testIngredient', 5),
-  ],
+  ingredients: [],
   editedIngredient: null,
   editedIngredientIndex: -1,
   error: null
