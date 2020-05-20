@@ -44,7 +44,7 @@ export class RecipeListComponent {
     }
   }
 
-  InitialPage(recipesOnPage) {
+  InitialPage(recipesOnPage:number) {
     return (
       Math.floor(
         +this.route.snapshot.queryParamMap.get('startItem') / recipesOnPage

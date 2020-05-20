@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   imgFile: File;
   imgAvatarUrl: string = null
 
-  OrderValue: number = 6; //////на будущие
+  orderValue: number = 6; //////на будущие
   
   user = this.store.pipe(select(AuthSelectors.user));
 

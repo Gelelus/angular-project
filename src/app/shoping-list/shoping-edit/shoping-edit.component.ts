@@ -63,7 +63,7 @@ export class ShopingEditComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ShopingListActions.StopEdit());
   }
   onOrder(){
-    ///
+    this.store.dispatch(new ShopingListActions.StoreIngredient())
   }
 
   ngOnDestroy() {
