@@ -1,5 +1,6 @@
 <a
   [routerLink]="[recipe._id]"
+  queryParamsHandling="merge"
   style="cursor: pointer;"
   class="list-group-item clearfix"
   routerLinkActive="active"
@@ -10,10 +11,10 @@
   </div>
   <span class="pull-right">
     <img
-      [src]="recipe.imagePath"
+      [src]="ServerUrl + recipe.imagePath"
       alt="{{ recipe.name }}"
       class="img-responsive"
-      style="max-height: 50px;"
+      style="height: 50px;"
     />
   </span>
 </a>

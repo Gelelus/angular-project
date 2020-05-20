@@ -19,6 +19,7 @@ export class PaginationComponent implements OnInit {
   pager: any = {};
 
   ngOnInit() {
+    
     if (this.itemsNumber) {
       this.setPage(this.initialPage);
     }

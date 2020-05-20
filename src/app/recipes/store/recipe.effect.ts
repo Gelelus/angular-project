@@ -1,41 +1,55 @@
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, withLatestFrom, tap } from 'rxjs/operators';
+import { switchMap, map, withLatestFrom, tap, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Store, select } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import * as RecipesActions from './recipe.actions';
 import { Recipe } from '../recipe.model';
 import * as fromApp from '../../store/app.reducer';
-import { Store, select } from '@ngrx/store';
+import * as RecipesSelectors from './recipe.selectors'
+
+const handleError = (errRes: any) => {
+  console.log(errRes);
+  
+  return of(new RecipesActions.CrudFail(errRes.error.error));
+};
 
 @Injectable()
 export class RecipeEffects {
   @Effect()
   fetchRecipes = this.actions$.pipe(
     ofType(RecipesActions.FETCH_RECIPES),
-    switchMap(() => {
+    switchMap((actionData: RecipesActions.FetchRecipes) => {
       const url = window.location.href;
       let httpParams = new HttpParams()
-        .set('startItem', '0')
-        .append('limit', '5');
+        .set('startItem', actionData.payload.startItem.toString())
+        .append('limit', actionData.payload.limit.toString());
       if (url.includes('?')) {
         httpParams = new HttpParams({ fromString: url.split('?')[1] });
       }
-      return this.http.get<Recipe[]>(environment.DataBaseUrl + 'recipes', {
-        params: httpParams,
-      });
+      return this.http.get<{ recipes: Recipe[]; maxRecipes: number }>(
+        environment.DataBaseUrl + 'recipes',
+        {
+          params: httpParams,
+        }
+      );
     }),
-    map((recipes) => {
-      return recipes.map((recipe) => {
-        return {
-          ...recipe,
-          ingredients: recipe.ingredients ? recipe.ingredients : [],
-        };
-      });
+    map((postData) => {
+      return {
+        recipes: postData.recipes.map((recipe) => {
+          return {
+            ...recipe,
+            ingredients: recipe.ingredients ? recipe.ingredients : [],
+          };
+        }),
+        maxRecipes: postData.maxRecipes,
+      };
     }),
-    map((recipes) => {
-      return new RecipesActions.SetRecipes(recipes);
+    map((data) => {
+      return new RecipesActions.SetRecipes(data);
     })
   );
 
@@ -52,37 +66,79 @@ export class RecipeEffects {
   );
 
   @Effect()
-  AddRecipeToDataBase = this.actions$.pipe(
+  addRecipeToDataBase = this.actions$.pipe(
     ofType(RecipesActions.ADD_RECIPE_TO_DB),
     switchMap((actionData: RecipesActions.AddRecipeToDataBase) => {
+      const postData = new FormData();
+      postData.append('description', actionData.payload.description);
+      postData.append('image', actionData.payload.image, 'image');
+      postData.append(
+        'ingredients',
+        JSON.stringify(actionData.payload.ingredients)
+      );
+      postData.append('name', actionData.payload.name);
+
       return this.http.post<Recipe>(
         environment.DataBaseUrl + 'recipes',
-        actionData.payload
+        postData
       );
     }),
     map((recipe) => {
-      console.log(recipe); //добавить handle errors
       return new RecipesActions.AddRecipe(recipe);
+    }),
+    catchError((errorRes) => {
+       return handleError(errorRes);
     })
   );
 
   @Effect()
-  UpdateRecipeOnDataBase = this.actions$.pipe(
+  updateRecipeOnDataBase = this.actions$.pipe(
     ofType(RecipesActions.UPDATE_RECIPE_ON_DB),
     switchMap((actionData: RecipesActions.UpdateRecipeOnDataBase) => {
+      let postData;
+      if (actionData.payload.image) {
+        postData = new FormData();
+        postData.append('description', actionData.payload.description);
+        postData.append('image', actionData.payload.image, 'image');
+        postData.append(
+          'ingredients',
+          JSON.stringify(actionData.payload.ingredients)
+        );
+        postData.append('name', actionData.payload.name);
+        postData.append('_id', actionData.payload._id);
+      } else {
+        postData = {
+          _id: actionData.payload._id,
+          name: actionData.payload.name,
+          description: actionData.payload.description,
+          ingredients: actionData.payload.ingredients,
+        };
+      }
       return this.http.put<Recipe>(
         environment.DataBaseUrl + 'recipes',
-        actionData.payload
+        postData
       );
     }),
-    map((recipe) => {
-      console.log(recipe); //добавить handle errors
-      return new RecipesActions.UpdateRecipe(recipe);
+    withLatestFrom(this.store.pipe(select(RecipesSelectors.recipes))),
+    map(([recipeNew, recipes]) => {
+
+      const updatedRecipes = [...recipes].map((recipe) => {
+        if (recipe._id === recipeNew._id) {
+          return recipeNew;
+        } else {
+          return recipe;
+        }
+      });
+
+      return new RecipesActions.UpdateRecipe(updatedRecipes);
+    }),
+    catchError((errorRes) => {
+       return handleError(errorRes);
     })
   );
 
   @Effect()
-  DeleteRecipeOnDataBase = this.actions$.pipe(
+  deleteRecipeOnDataBase = this.actions$.pipe(
     ofType(RecipesActions.DELETE_RECIPE_ON_DB),
     switchMap((actionData: RecipesActions.DeleteRecipeOnDataBase) => {
       return this.http.delete<{ id: string }>(
@@ -90,8 +146,11 @@ export class RecipeEffects {
       );
     }),
     map((recipeId) => {
-      console.log(recipeId); //добавить handle errors
+     
       return new RecipesActions.DeleteRecipe(recipeId.id);
+    }),
+    catchError((errorRes) => {
+       return handleError(errorRes);
     })
   );
 

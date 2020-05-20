@@ -5,12 +5,13 @@
       <div class="row">
         <div class="col-xs-12">
           <button
-            [disabled]="!recipeForm.valid"
+            [disabled]="!(recipeForm.valid || EditImage)"
             type="submit"
             class="btn btn-success"
           >
             Save
           </button>
+         
           <button (click)="onCancel()" type="button" class="btn btn-danger">
             Cancel
           </button>
@@ -32,20 +33,25 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="imagePath">Image URL</label>
-            <input
-              type="text"
-              id="imagePath"
-              formControlName="imagePath"
-              class="form-control"
-              #imagePath
-            />
+            <button
+              button
+              type="button"
+              class="btn btn-info"
+              (click)="filePicker.click()"
+            >
+              Pick a picture
+            </button>
+            <input type="file" #filePicker (change)="onImagePicked($event)" />
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="imagePreview !== '' && imagePreview">
         <div class="col-xs-12">
-          <img [src]="imagePath.value" alt="" class="img-responsive" />
+          <img
+            [src]="imagePreview"
+            [alt]="recipeForm.value.name"
+            class="img-responsive"
+          />
         </div>
       </div>
       <div class="row">

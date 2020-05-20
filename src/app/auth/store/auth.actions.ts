@@ -18,6 +18,10 @@ export class AuthenticateSuccess implements Action {
       expirationDate: Date;
       redirect: boolean;
       avatarImgUrl: string;
+      firstName: string,
+      secondName: string,
+      date: string,
+      phoneNumber:string
     }
   ) {}
 }

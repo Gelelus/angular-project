@@ -3,10 +3,16 @@ import * as RecipesActions from './recipe.actions';
 
 export interface State {
   recipes: Recipe[];
+  maxRecipes: number;
+  recipesOnPage: number;
+  crudError: string;
 }
 
 const initialState: State = {
   recipes: [],
+  maxRecipes: null,
+  recipesOnPage: 5,
+  crudError: null,
 };
 
 export function recipeReducer(
@@ -17,29 +23,35 @@ export function recipeReducer(
     case RecipesActions.SET_RECIPES:
       return {
         ...state,
-        recipes: [...action.payload],
+        recipes: [...action.payload.recipes],
+        maxRecipes: action.payload.maxRecipes,
       };
 
     case RecipesActions.ADD_RECIPE:
+      const recipes =
+        state.recipes.length < 5
+          ? [...state.recipes, action.payload]
+          : state.recipes;
       return {
         ...state,
-        recipes: [...state.recipes, action.payload],
+        maxRecipes: state.maxRecipes + 1,
+        recipes: recipes,
       };
 
     case RecipesActions.UPDATE_RECIPE:
-      const updatedRecipes = [...state.recipes].map((recipe) => {
-        if (recipe._id === action.payload._id) {
-          return action.payload;
-        } else {
-          return recipe;
-        }
-      });
-      return { ...state, recipes: updatedRecipes };
+      return { ...state, recipes: action.payload };
 
     case RecipesActions.DELETE_RECIPE:
       return {
         ...state,
+        maxRecipes: state.maxRecipes - 1,
         recipes: state.recipes.filter((res) => res._id !== action.payload),
+      };
+
+    case RecipesActions.CRUD_FAIL:
+      return {
+        ...state,
+        crudError: action.payload,
       };
 
     default:

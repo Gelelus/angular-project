@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { map } from 'rxjs/operators';
 
 import { Recipe } from '../recipe.model';
 import * as fromApp from 'src/app/store/app.reducer';
@@ -15,8 +14,10 @@ import * as RecipeActions from '../store/recipe.actions';
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[];
-  recipesNumber = 6; //////////общее количество рецептов
-  recipesOnPage = 5;
+  recipesNumber: number;
+  recipesOnPage: number;
+  recipesInitialPage: number;
+
   private RecipeSubscription: Subscription;
 
   constructor(
@@ -27,14 +28,16 @@ export class RecipeListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.RecipeSubscription = this.store
-      .pipe(
-        select('recipes'),
-        map((recipesState) => {
-          return recipesState.recipes;
-        })
-      )
-      .subscribe((recipes: Recipe[]) => {
-        this.recipes = recipes;
+      .pipe(select('recipes'))
+      .subscribe((recipesState) => {
+        this.recipes = recipesState.recipes;
+        this.recipesNumber = recipesState.maxRecipes;
+        this.recipesOnPage = recipesState.recipesOnPage;
+        this.recipesInitialPage =
+          Math.floor(
+            +this.route.snapshot.queryParamMap.get('startItem') /
+              recipesState.recipesOnPage
+          ) + 1;
       });
   }
 
@@ -43,7 +46,6 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   }
 
   onChangePage(event: { startItem: number; previousPage: number }) {
-    console.log(event);
     if (event.previousPage !== -1) {
       this.router
         .navigate(['/recipes'], {
@@ -53,7 +55,9 @@ export class RecipeListComponent implements OnInit, OnDestroy {
           },
         })
         .then(() => {
-          this.store.dispatch(new RecipeActions.FetchRecipes());
+          this.store.dispatch(
+            new RecipeActions.FetchRecipes({ startItem: 0, limit: 5 })
+          );
         });
     }
   }
