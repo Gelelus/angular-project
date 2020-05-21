@@ -3,8 +3,8 @@ import {
   switchMap,
   map,
   withLatestFrom,
-  tap,
   catchError,
+  tap,
 } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -34,12 +34,13 @@ export class RecipeEffects {
       if (url.includes('?')) {
         httpParams = new HttpParams({ fromString: url.split('?')[1] });
       }
+      
       return this.http.get<{ recipes: Recipe[]; maxRecipes: number }>(
         environment.DataBaseUrl + 'recipes',
         {
-          params: httpParams || {
-            startItem: actionData.payload.startItem,
-            limit: actionData.payload.startItem,
+          params:  {
+            startItem: actionData.payload.startItem.toString(),
+            limit: actionData.payload.startItem.toString(),
           },
         }
       );

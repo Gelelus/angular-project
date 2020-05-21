@@ -1,1 +1,24 @@
-<p>user-recipes works!</p>
+<div class="col-lg-8 pb-5" *ngIf="userRecipesObs | async as recipes">
+  <ng-container *ngFor="let recipe of recipes">
+    <a
+      [routerLink]="[recipe._id]"
+      queryParamsHandling="merge"
+      style="cursor: pointer;"
+      class="list-group-item clearfix"
+      routerLinkActive="active"
+    >
+      <div class="pull-left">
+        <h4 class="list-group-item-heading">{{ recipe.name }}</h4>
+        <p class="list-group-item-text">{{ recipe.description }}</p>
+      </div>
+      <span class="pull-right">
+        <img
+          [src]="serverUrl + recipe.imagePath"
+          alt="{{ recipe.name }}"
+          class="img-responsive"
+          style="height: 50px;"
+        />
+      </span>
+    </a>
+  </ng-container>
+</div>

@@ -1,12 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Store, select } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+
 
 import * as fromApp from '../store/app.reducer';
 import * as AuthSelectors from '../auth/store/auth.selectors';
+import * as ProfileSelectors from './store/profile.selectors';
 import * as AuthActions from '../auth/store/auth.actions';
+import * as ProfileActions from './store/profile.actions';
 
 @Component({
   selector: 'app-profile',
@@ -17,18 +19,15 @@ export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
   serverUrl = environment.DataBaseUrl;
   imgEdit = false;
-
   imgFile: File;
   imgAvatarUrl: string = null
-
-  OrderValue: number = 6; //////на будущие
-  
+  orderValue = this.store.pipe(select(ProfileSelectors.ordersLength));
   user = this.store.pipe(select(AuthSelectors.user));
 
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
-   
+    this.store.dispatch(new ProfileActions.FetchOrders())
   }
 
   onImageChange() {
