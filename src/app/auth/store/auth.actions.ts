@@ -6,6 +6,9 @@ export const AUTHENTICATE_SUCCESS = '[Auth] AUTHENTICATE_SUCCESS';
 export const AUTHENTICATE_FAIL = '[Auth] AUTHENTICATE_FAIL';
 export const AUTO_LOGIN = '[Auth] AUTO_LOGIN';
 export const LOGOUT = '[Auth] LOGOUT';
+export const UPDATE_AUTH_DATA = '[Auth] UPDATE_AUTH_DATA';
+export const UPDATE_AUTH_DATA_AVATAR = '[Auth] UPDATE_AUTH_DATA_IMG';
+export const UPDATE_AVATAR_SUCCESS = '[Auth] UPDATE_AVATAR_SUCCESS';
 
 export class AuthenticateSuccess implements Action {
   readonly type = AUTHENTICATE_SUCCESS;
@@ -18,10 +21,10 @@ export class AuthenticateSuccess implements Action {
       expirationDate: Date;
       redirect: boolean;
       avatarImgUrl: string;
-      firstName: string,
-      secondName: string,
-      date: string,
-      phoneNumber:string
+      firstName: string;
+      secondName: string;
+      date: string;
+      phoneNumber: string;
     }
   ) {}
 }
@@ -62,10 +65,35 @@ export class AutoLogin implements Action {
   readonly type = AUTO_LOGIN;
 }
 
+export class UpdateAuthData implements Action {
+  readonly type = UPDATE_AUTH_DATA;
+  constructor(
+    public payload: {
+      firstName: string;
+      passwords: { password: string; secondPassword: string };
+      phoneNumber: string;
+      secondName: string;
+    }
+  ) {}
+}
+
+export class UpdateAuthDataAvatar implements Action {
+  readonly type = UPDATE_AUTH_DATA_AVATAR;
+  constructor(public payload: File) {}
+}
+
+export class UpdateAvatarSuccess implements Action {
+  readonly type = UPDATE_AVATAR_SUCCESS;
+  constructor(public payload: string) {}
+}
+
 export type AuthActions =
   | AuthenticateSuccess
   | Logout
   | LoginStart
   | AuthenticateFail
   | SignStart
-  | AutoLogin;
+  | AutoLogin
+  | UpdateAuthData
+  | UpdateAuthDataAvatar
+  | UpdateAvatarSuccess;

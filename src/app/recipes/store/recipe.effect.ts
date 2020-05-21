@@ -1,5 +1,11 @@
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { switchMap, map, withLatestFrom, tap, catchError } from 'rxjs/operators';
+import {
+  switchMap,
+  map,
+  withLatestFrom,
+  tap,
+  catchError,
+} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -9,11 +15,11 @@ import { of } from 'rxjs';
 import * as RecipesActions from './recipe.actions';
 import { Recipe } from '../recipe.model';
 import * as fromApp from '../../store/app.reducer';
-import * as RecipesSelectors from './recipe.selectors'
+import * as RecipesSelectors from './recipe.selectors';
 
 const handleError = (errRes: any) => {
   console.log(errRes);
-  
+
   return of(new RecipesActions.CrudFail(errRes.error.error));
 };
 
@@ -24,27 +30,23 @@ export class RecipeEffects {
     ofType(RecipesActions.FETCH_RECIPES),
     switchMap((actionData: RecipesActions.FetchRecipes) => {
       const url = window.location.href;
-      let httpParams = new HttpParams()
-        .set('startItem', actionData.payload.startItem.toString())
-        .append('limit', actionData.payload.limit.toString());
+      let httpParams = null;
       if (url.includes('?')) {
         httpParams = new HttpParams({ fromString: url.split('?')[1] });
       }
       return this.http.get<{ recipes: Recipe[]; maxRecipes: number }>(
         environment.DataBaseUrl + 'recipes',
         {
-          params: httpParams,
+          params: httpParams || {
+            startItem: actionData.payload.startItem,
+            limit: actionData.payload.startItem,
+          },
         }
       );
     }),
     map((postData) => {
       return {
-        recipes: postData.recipes.map((recipe) => {
-          return {
-            ...recipe,
-            ingredients: recipe.ingredients ? recipe.ingredients : [],
-          };
-        }),
+        recipes: postData.recipes,
         maxRecipes: postData.maxRecipes,
       };
     }),
@@ -87,7 +89,7 @@ export class RecipeEffects {
       return new RecipesActions.AddRecipe(recipe);
     }),
     catchError((errorRes) => {
-       return handleError(errorRes);
+      return handleError(errorRes);
     })
   );
 
@@ -121,7 +123,6 @@ export class RecipeEffects {
     }),
     withLatestFrom(this.store.pipe(select(RecipesSelectors.recipes))),
     map(([recipeNew, recipes]) => {
-
       const updatedRecipes = [...recipes].map((recipe) => {
         if (recipe._id === recipeNew._id) {
           return recipeNew;
@@ -133,7 +134,7 @@ export class RecipeEffects {
       return new RecipesActions.UpdateRecipe(updatedRecipes);
     }),
     catchError((errorRes) => {
-       return handleError(errorRes);
+      return handleError(errorRes);
     })
   );
 
@@ -146,11 +147,10 @@ export class RecipeEffects {
       );
     }),
     map((recipeId) => {
-     
       return new RecipesActions.DeleteRecipe(recipeId.id);
     }),
     catchError((errorRes) => {
-       return handleError(errorRes);
+      return handleError(errorRes);
     })
   );
 

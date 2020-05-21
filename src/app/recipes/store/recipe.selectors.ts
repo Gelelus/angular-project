@@ -17,6 +17,17 @@ export const recipes = createSelector(
 );
 
 export const error = createSelector(
-    selectStateRecipes,
-    (recipe: State) => recipe.crudError
-  );
+  selectStateRecipes,
+  (recipe: State) => recipe.crudError
+);
+
+export const recipesParms = createSelector(
+  selectStateRecipes,
+  (recipeState: State) => {
+    return {
+      recipes: recipeState.recipes,
+      maxRecipes: recipeState.maxRecipes,
+      recipesOnPage: recipeState.recipesOnPage,
+    };
+  }
+);

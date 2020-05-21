@@ -3,40 +3,51 @@ import { FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import * as fromApp from '../store/app.reducer';
+import * as AuthSelectors from '../auth/store/auth.selectors';
+import * as AuthActions from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
-export class ProfileComponent implements OnInit, OnDestroy {
-  imgAvatarUrl: string;
-  name:string;
-  registratedDate: string;
+export class ProfileComponent implements OnInit {
   profileForm: FormGroup;
-  userSub: Subscription;
+  serverUrl = environment.DataBaseUrl;
+  imgEdit = false;
+
+  imgFile: File;
+  imgAvatarUrl: string = null
+
+  OrderValue: number = 6; //////на будущие
+  
+  user = this.store.pipe(select(AuthSelectors.user));
 
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
-    this.userSub = this.store
-      .pipe(
-        select('auth'),
-        map((authState) => authState.user)
-      )
-      .subscribe((user) => {
-        if (user) {
-          
-          this.imgAvatarUrl = environment.DataBaseUrl +  user.avatarImgUrl;
-          this.name = user.name
-          this.registratedDate = new Date(user.date).toISOString().slice(0, 16).replace('T',' ')
-        }
-      });
+   
   }
-  ngOnDestroy() {
-    this.userSub.unsubscribe();
+
+  onImageChange() {
+    this.store.dispatch(new AuthActions.UpdateAuthDataAvatar(this.imgFile));
+    this.imgEdit = false;
+  }
+
+  onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.imgFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imgAvatarUrl = reader.result as string;
+      this.imgEdit = true;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  prittyDate(date: string) {
+    return new Date(date).toISOString().slice(0, 16).replace('T', ' ');
   }
 }

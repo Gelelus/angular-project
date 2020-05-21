@@ -1,12 +1,21 @@
 import { Actions, ofType, Effect } from '@ngrx/effects';
-import { switchMap, catchError, map, tap } from 'rxjs/operators';
+import {
+  switchMap,
+  catchError,
+  map,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { Router, Data } from '@angular/router';
+import { Router } from '@angular/router';
+import * as fromApp from '../../store/app.reducer';
+import { Store, select } from '@ngrx/store';
 
 import * as AuthActions from './auth.actions';
+import * as AuthSelectors from './auth.selectors';
 import { User } from '../user.model';
 import { AuthService } from '../auth.service';
 
@@ -19,7 +28,7 @@ export interface AuthResponseDate {
   date: string;
   firstName: string;
   secondName: string;
-  phoneNumber: string
+  phoneNumber: string;
 }
 
 const handleAuthentication = (
@@ -56,13 +65,12 @@ const handleAuthentication = (
     firstName: firstName,
     secondName: secondName,
     date: date,
-    phoneNumber: phoneNumber
+    phoneNumber: phoneNumber,
   });
 };
 
 const handleError = (errRes: any) => {
   console.log(errRes);
-  
 
   return of(new AuthActions.AuthenticateFail(errRes.error.error));
 };
@@ -116,7 +124,6 @@ export class AuthEffects {
             this.authService.setLogoutTimer(+resData.expiresIn * 1000);
           }),
           map((resData) => {
-            console.log(resData);
             return handleAuthentication(
               +resData.expiresIn,
               resData.email,
@@ -128,6 +135,65 @@ export class AuthEffects {
               resData.date,
               resData.phoneNumber
             );
+          }),
+          catchError((errorRes) => {
+            return handleError(errorRes);
+          })
+        );
+    })
+  );
+
+  @Effect()
+  authUpdateData = this.actions$.pipe(
+    ofType(AuthActions.UPDATE_AUTH_DATA),
+    switchMap((authData: AuthActions.UpdateAuthData) => {
+      return this.http
+        .put<AuthResponseDate>(
+          environment.DataBaseUrl + 'users',
+          authData.payload
+        )
+        .pipe(
+          tap((resData) => {
+            this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+          }),
+          map((resData) => {
+            return handleAuthentication(
+              +resData.expiresIn,
+              resData.email,
+              resData.localId,
+              resData.idToken,
+              resData.avatarUrl,
+              resData.firstName,
+              resData.secondName,
+              resData.date,
+              resData.phoneNumber
+            );
+          }),
+          catchError((errorRes) => {
+            return handleError(errorRes);
+          })
+        );
+    })
+  );
+
+  @Effect()
+  updateImg = this.actions$.pipe(
+    ofType(AuthActions.UPDATE_AUTH_DATA_AVATAR),
+    switchMap((authDataImg: AuthActions.UpdateAuthDataAvatar) => {
+      const postData = new FormData();
+      postData.append('image', authDataImg.payload, 'image');
+
+      return this.http
+        .put<{ imgUrl: string }>(
+          environment.DataBaseUrl + 'users/avatar',
+          postData
+        )
+        .pipe(
+          withLatestFrom(this.store.pipe(select(AuthSelectors.user))),
+          map(([resData, user]) => {
+            const Updateuser = { ...user, avatarImgUrl: resData.imgUrl };
+            localStorage.setItem('UserData', JSON.stringify(Updateuser));
+            return new AuthActions.UpdateAvatarSuccess(resData.imgUrl);
           }),
           catchError((errorRes) => {
             return handleError(errorRes);
@@ -193,7 +259,7 @@ export class AuthEffects {
             firstName: loadedUser.firstName,
             secondName: loadedUser.secondName,
             date: loadedUser.date,
-            phoneNumber: loadedUser.phoneNumber
+            phoneNumber: loadedUser.phoneNumber,
           });
         }
         return { type: 'none' };
@@ -215,6 +281,7 @@ export class AuthEffects {
     private actions$: Actions,
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store<fromApp.AppState>
   ) {}
 }

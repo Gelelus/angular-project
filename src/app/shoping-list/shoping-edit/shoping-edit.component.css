@@ -1,3 +1,6 @@
 button {
     margin-right: 5px;
 }
+.btn-order{
+    float: right;
+}
