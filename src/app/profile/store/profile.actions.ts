@@ -8,6 +8,7 @@ export const FETCH_ORDERS = '[Profile] FETCH_ORDERS';
 export const DELETE_ORDER = '[Profile] DELETE_ORDER';
 export const DELETE_ORDER_ON_DB = '[Profile] DELETE_ORDER_ON_DB';
 export const CRUD_FAIL = '[Profile] CRUD_FAIL';
+export const FETCH_RECIPES = '[Profile] FETCH_RECIPES';
 
 export class AddOrders implements Action {
   readonly type = ADD_ORDERS;
@@ -21,6 +22,10 @@ export class AddUserRecipes implements Action {
 
 export class FetchOrders implements Action {
   readonly type = FETCH_ORDERS;
+}
+
+export class FetchRecipes implements Action {
+  readonly type = FETCH_RECIPES;
 }
 
 export class CrudFail implements Action {
@@ -44,4 +49,5 @@ export type ProfileActions =
   | FetchOrders
   | CrudFail
   | DeleteOrder
-  | DeleteOrderOnDb;
+  | DeleteOrderOnDb
+  | FetchRecipes;

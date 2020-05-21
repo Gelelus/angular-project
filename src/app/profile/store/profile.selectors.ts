@@ -10,6 +10,11 @@ export const orders = createSelector(
   (ProfileState: State) => ProfileState.orders
 );
 
+export const recipes = createSelector(
+  selectStateProfile,
+  (ProfileState: State) => ProfileState.recipes
+);
+
 export const ordersLength = createSelector(
   selectStateProfile,
   (ProfileState: State) =>

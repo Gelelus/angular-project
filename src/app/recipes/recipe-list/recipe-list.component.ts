@@ -13,7 +13,8 @@ import * as RecipeSelectors from '../store/recipe.selectors';
 })
 export class RecipeListComponent {
   recipesParmsObs = this.store.pipe(select(RecipeSelectors.recipesParms));
-
+  filter = false;
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -54,5 +55,8 @@ export class RecipeListComponent {
 
   onNewRecipe() {
     this.router.navigate(['new'], { relativeTo: this.route });
+  }
+  onFilter() {
+    this.filter = !this.filter;
   }
 }

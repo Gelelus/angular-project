@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import * as fromApp from '../../store/app.reducer';
 import * as ProfileActions from './profile.actions';
 import { Order } from '../user-orders/order.model';
+import { Recipe } from 'src/app/recipes/recipe.model';
 
 
 
@@ -32,6 +33,20 @@ export class ProfileEffects {
       return handleError(errorRes);
     })
   );
+
+  @Effect()
+  fetchRecipes = this.actions$.pipe(
+    ofType(ProfileActions.FETCH_RECIPES),
+    switchMap(()=>{
+      return this.http.get<Recipe[]>(environment.DataBaseUrl + 'users/get/recipes')
+    }),
+    map((recipes) => {
+      return new ProfileActions.AddUserRecipes(recipes);
+    }),
+    catchError((errorRes) => {
+      return handleError(errorRes);
+    })
+  )
 
   @Effect()
   deleteOrder = this.actions$.pipe(
