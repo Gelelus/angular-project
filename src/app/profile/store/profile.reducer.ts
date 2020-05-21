@@ -37,6 +37,12 @@ export function profileReducer(
       error: action.payload,
     };
 
+    case ProfileActions.DELETE_ORDER:
+      return {
+        ...state,
+        orders: state.orders.filter((order) => order._id !== action.payload),
+      }
+
     default:
       return state;
   }

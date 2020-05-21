@@ -147,32 +147,27 @@ export class AuthEffects {
   authUpdateData = this.actions$.pipe(
     ofType(AuthActions.UPDATE_AUTH_DATA),
     switchMap((authData: AuthActions.UpdateAuthData) => {
-      return this.http
-        .put<AuthResponseDate>(
-          environment.DataBaseUrl + 'users',
-          authData.payload
-        )
-        .pipe(
-          tap((resData) => {
-            this.authService.setLogoutTimer(+resData.expiresIn * 1000);
-          }),
-          map((resData) => {
-            return handleAuthentication(
-              +resData.expiresIn,
-              resData.email,
-              resData.localId,
-              resData.idToken,
-              resData.avatarUrl,
-              resData.firstName,
-              resData.secondName,
-              resData.date,
-              resData.phoneNumber
-            );
-          }),
-          catchError((errorRes) => {
-            return handleError(errorRes);
-          })
-        );
+      return this.http.put<AuthResponseDate>(
+        environment.DataBaseUrl + 'users',
+        authData.payload
+      );
+    }),
+    map((resData) => {
+      this.authService.setLogoutTimer(+resData.expiresIn * 1000);
+      return handleAuthentication(
+        +resData.expiresIn,
+        resData.email,
+        resData.localId,
+        resData.idToken,
+        resData.avatarUrl,
+        resData.firstName,
+        resData.secondName,
+        resData.date,
+        resData.phoneNumber
+      );
+    }),
+    catchError((errorRes) => {
+      return handleError(errorRes);
     })
   );
 
@@ -183,22 +178,19 @@ export class AuthEffects {
       const postData = new FormData();
       postData.append('image', authDataImg.payload, 'image');
 
-      return this.http
-        .put<{ imgUrl: string }>(
-          environment.DataBaseUrl + 'users/avatar',
-          postData
-        )
-        .pipe(
-          withLatestFrom(this.store.pipe(select(AuthSelectors.user))),
-          map(([resData, user]) => {
-            const Updateuser = { ...user, avatarImgUrl: resData.imgUrl };
-            localStorage.setItem('UserData', JSON.stringify(Updateuser));
-            return new AuthActions.UpdateAvatarSuccess(resData.imgUrl);
-          }),
-          catchError((errorRes) => {
-            return handleError(errorRes);
-          })
-        );
+      return this.http.put<{ imgUrl: string }>(
+        environment.DataBaseUrl + 'users/avatar',
+        postData
+      );
+    }),
+    withLatestFrom(this.store.select(AuthSelectors.user)),
+    map(([resData, user]) => {
+      const Updateuser = { ...user, avatarImgUrl: resData.imgUrl };
+      localStorage.setItem('UserData', JSON.stringify(Updateuser));
+      return new AuthActions.UpdateAvatarSuccess(resData.imgUrl);
+    }),
+    catchError((errorRes) => {
+      return handleError(errorRes);
     })
   );
 

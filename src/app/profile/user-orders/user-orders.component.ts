@@ -3,21 +3,20 @@ import { Store, select } from '@ngrx/store';
 
 import * as fromApp from '../../store/app.reducer';
 import * as ProfileSelectors from '../store/profile.selectors';
-
+import * as ProfileActions from '../store/profile.actions';
 
 @Component({
   selector: 'app-user-orders',
   templateUrl: './user-orders.component.html',
-  styleUrls: ['./user-orders.component.css']
+  styleUrls: ['./user-orders.component.css'],
 })
 export class UserOrdersComponent implements OnInit {
+  ordersObs = this.store.pipe(select(ProfileSelectors.orders));
 
-  ordersObs = this.store.pipe(select(ProfileSelectors.orders))
+  constructor(private store: Store<fromApp.AppState>) {}
 
-  constructor(private store: Store<fromApp.AppState>) { }
-
-  ngOnInit(): void {
-    
+  ngOnInit(): void {}
+  onOrderRecived(id: string) {
+    this.store.dispatch(new ProfileActions.DeleteOrderOnDb(id));
   }
-
 }

@@ -33,6 +33,20 @@ export class ProfileEffects {
     })
   );
 
+  @Effect()
+  deleteOrder = this.actions$.pipe(
+    ofType(ProfileActions.DELETE_ORDER_ON_DB),
+    switchMap((ActionData: ProfileActions.DeleteOrderOnDb)=>{
+      return this.http.delete<{ id: string }>(environment.DataBaseUrl + 'orders/' + ActionData.payload)
+    }),
+    map((orderId) => {
+      return new ProfileActions.DeleteOrder(orderId.id);
+    }),
+    catchError((errorRes) => {
+      return handleError(errorRes);
+    })
+  )
+
   constructor(
     private actions$: Actions,
     private http: HttpClient,
