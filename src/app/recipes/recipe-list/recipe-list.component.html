@@ -11,7 +11,7 @@
   </div>
 </div>
 <br>
-<app-filter-panel *ngIf="filter"></app-filter-panel>
+<app-filter-panel *ngIf="filter" (filterChange)="onFilterChange($event)" ></app-filter-panel>
 <hr />
 <div class="row">
   <div class="col-xs-12" *ngIf="recipesParmsObs | async as recipesParms">

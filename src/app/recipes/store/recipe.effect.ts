@@ -38,9 +38,9 @@ export class RecipeEffects {
       return this.http.get<{ recipes: Recipe[]; maxRecipes: number }>(
         environment.DataBaseUrl + 'recipes',
         {
-          params:  {
+          params: httpParams || {
             startItem: actionData.payload.startItem.toString(),
-            limit: actionData.payload.startItem.toString(),
+            limit: actionData.payload.limit.toString(),
           },
         }
       );
@@ -98,7 +98,7 @@ export class RecipeEffects {
   updateRecipeOnDataBase = this.actions$.pipe(
     ofType(RecipesActions.UPDATE_RECIPE_ON_DB),
     switchMap((actionData: RecipesActions.UpdateRecipeOnDataBase) => {
-      let postData;
+      let postData: any;
       if (actionData.payload.image) {
         postData = new FormData();
         postData.append('description', actionData.payload.description);
