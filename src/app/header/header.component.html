@@ -23,14 +23,16 @@
         <li routerLinkActive="active">
           <a routerLink="/profile">Profile</a>
         </li>
-
+        <li routerLinkActive="active">
+          <a routerLink="/users">Users</a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right" *ngIf="isAuth">
         <li>
           <a class="btn-logout" (click)="onLogout()">Logout</a>
         </li>
         <li routerLinkActive="active" *ngIf="isAuth">
-          <a class = 'profile-container' routerLink="/profile">
+          <a class="profile-container" routerLink="/profile">
             <img
               width="50px"
               height="50px"

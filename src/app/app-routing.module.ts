@@ -26,6 +26,11 @@ const appRoutes: Routes = [
     loadChildren: () =>
       import('src/app/profile/profile.module').then((m) => m.ProfileModule),
   },
+  {
+    path: 'users',
+    loadChildren: () =>
+      import('src/app/users/users.module').then((m) => m.UsersModule),
+  },
 ];
 
 @NgModule({
