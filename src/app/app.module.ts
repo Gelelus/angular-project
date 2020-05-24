@@ -25,7 +25,12 @@ import { ProfileEffects } from './profile/store/profile.effects';
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects, RecipeEffects, ShopingListEffects, ProfileEffects]),
+    EffectsModule.forRoot([
+      AuthEffects,
+      RecipeEffects,
+      ShopingListEffects,
+      ProfileEffects,
+    ]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     // StoreRouterConnectingModule.forRoot(), // авто отправка экшенов при навигации
     SharedModule,

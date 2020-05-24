@@ -21,6 +21,11 @@ export const error = createSelector(
   (recipe: State) => recipe.crudError
 );
 
+export const limit = createSelector(
+  selectStateRecipes,
+  (recipe: State) => recipe.recipesOnPage
+)
+
 export const recipesParms = createSelector(
   selectStateRecipes,
   (recipeState: State) => {

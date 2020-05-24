@@ -10,10 +10,14 @@ import { UserRecipesComponent } from './user-recipes/user-recipes.component';
 import { UserOrdersComponent } from './user-orders/user-orders.component';
 import { OrderItemComponent } from './user-orders/order-item/order-item.component';
 
-
-
 @NgModule({
-  declarations: [ProfileComponent, SettingComponent,UserRecipesComponent,UserOrdersComponent, OrderItemComponent],
+  declarations: [
+    ProfileComponent,
+    SettingComponent,
+    UserRecipesComponent,
+    UserOrdersComponent,
+    OrderItemComponent,
+  ],
   imports: [
     RouterModule,
     SharedModule,
