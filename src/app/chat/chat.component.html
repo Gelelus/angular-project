@@ -1,0 +1,20 @@
+<div class="container">
+  <h4>Common chat</h4>
+  
+  <div class="message-container">
+    <div *ngFor="let message of messages">
+      {{ message }}
+    </div>
+  </div>
+  <textarea
+    id="message"
+    class="form-control"
+    placeholder="Your message here"
+    [(ngModel)]="message"
+  >
+  </textarea>
+
+  <button id="send" class="btn btn-success" (click)="sendMessage()">
+    Send
+  </button>
+</div>

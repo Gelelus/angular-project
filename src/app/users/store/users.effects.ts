@@ -3,10 +3,9 @@ import { Injectable } from '@angular/core';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
-import * as fromApp from '../../store/app.reducer';
+
 import * as UsersActions from './users.actions';
 import { SimpleUser } from '../simple-user.model';
 
@@ -53,6 +52,5 @@ export class UsersEffects {
   constructor(
     private actions$: Actions,
     private http: HttpClient,
-    private store: Store<fromApp.AppState>
   ) {}
 }

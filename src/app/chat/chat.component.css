@@ -1,0 +1,16 @@
+textarea {
+  resize: none;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.message-container {
+  min-height: 30vh;
+}
+
+.container {
+  background-color: #eee;
+  border-radius: 6px;
+  padding: 1em;
+}
+
+
