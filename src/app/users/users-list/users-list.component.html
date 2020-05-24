@@ -1,20 +1,8 @@
-<!-- test check component appearance -->
-<div class="row" *ngFor="let number of [0, 1, 2, 3, 4]"> 
-  <div class="list-group-item clearfix">
-    <a class="pull-left" href="#">
-      <img
-        class="img-responsive"
-        src="http://localhost:8080/img/avatars/avatar.png"
-      />
-    </a>
-    <div class="media-body">
-      <h4 class="list-group-item-heading">Name {{ number }}</h4>
-      <p class="list-group-item-text">
-        <i class="glyphicon glyphicon-envelope"></i> email@example.com
-
-        <i class="glyphicon glyphicon-gift"></i> June 02, 1988
-      </p>
-      <p><span class="label label-info">888 recipes</span></p>
-    </div>
+<div class="row" *ngIf="usersObs | async as users">
+  <div class="col-xs-7">
+    <app-users-item
+      *ngFor="let userEl of users"
+      [user]="userEl"
+    ></app-users-item>
   </div>
 </div>

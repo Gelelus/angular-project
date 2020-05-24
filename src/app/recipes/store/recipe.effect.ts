@@ -53,6 +53,9 @@ export class RecipeEffects {
     }),
     map((data) => {
       return new RecipesActions.SetRecipes(data);
+    }),
+    catchError((errorRes) => {
+      return handleError(errorRes);
     })
   );
 

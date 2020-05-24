@@ -1,13 +1,8 @@
 <div class="row">
-    <div class="col-md-5">
-      <div class="alert alert-danger" *ngIf="error | async">
-        <p>{{ error | async }}</p>
-      </div>
-      <app-users-list></app-users-list> 
+  <div class="col-md-12">
+    <div class="alert alert-danger" *ngIf="error | async">
+      <p>{{ error | async }}</p>
     </div>
-    <div class="col-md-5">
-     <button (click) = "onGenerateError()">generate error test button</button>
-     <!-- <router-outlet></router-outlet>  will add-->
-    </div>
+    <router-outlet></router-outlet>
   </div>
-  
+</div>

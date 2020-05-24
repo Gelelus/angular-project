@@ -9,3 +9,13 @@ export const error = createSelector(
   selectStateUsers,
   (usersState: State) => usersState.error
 );
+
+export const users = createSelector(
+  selectStateUsers,
+  (usersState: State) => usersState.users
+);
+
+export const user = createSelector(
+  selectStateUsers,
+  (usersState: State) => usersState.selectUser
+);

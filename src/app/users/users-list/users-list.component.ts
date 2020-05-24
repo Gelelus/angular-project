@@ -1,4 +1,10 @@
-import { Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+
+import * as fromApp from '../../store/app.reducer';
+import * as UsersActions from '../store/users.actions';
+import * as UsersSelectors from '../store/users.selectors';
+
 
 @Component({
   selector: 'app-users-list',
@@ -7,8 +13,8 @@ import { Component} from '@angular/core';
 })
 export class UsersListComponent {
 
-  constructor() { }
+  usersObs = this.store.pipe(select(UsersSelectors.users)) 
 
- 
+  constructor(private store: Store<fromApp.AppState>) {}
 
 }

@@ -20,7 +20,7 @@
         <li routerLinkActive="active">
           <a routerLink="/shopping-list">Shopping List</a>
         </li>
-        <li routerLinkActive="active">
+        <li routerLinkActive="active" *ngIf="isAuth">
           <a routerLink="/profile">Profile</a>
         </li>
         <li routerLinkActive="active">
@@ -28,6 +28,7 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right" *ngIf="isAuth">
+        
         <li>
           <a class="btn-logout" (click)="onLogout()">Logout</a>
         </li>
