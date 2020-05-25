@@ -1,0 +1,89 @@
+<div class="row" *ngIf="userObs | async as user">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title mb-4">
+          <div class="d-flex justify-content-start">
+            <div class="image-container">
+              <img
+                [src]="serverUrl + user.avatarImg"
+                id="imgProfile"
+                style="width: 150px; height: 150px;"
+                class="img-thumbnail"
+              />
+            </div>
+            <div class="userData ml-3">
+              <h2 style="font-size: 1.5rem; font-weight: bold;">
+                {{ user.firstName }}
+              </h2>
+              <h6>
+                <a>{{ user.recipes.length }}</a> Recipes Created
+              </h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <ul class="nav nav-tabs mb-4">
+              <li class="nav-item">
+                <a class="nav-link active">Basic Info</a>
+              </li>
+            </ul>
+
+            <div>
+              <div class="row">
+                <br />
+                <div class="col-sm-3 col-md-2 col-5">
+                  <label style="font-weight: bold;">Full Name</label>
+                </div>
+                <div class="col-md-8 col-6">
+                  {{ user.firstName + " " + user.secondName }}
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3 col-md-2 col-5">
+                  <label style="font-weight: bold;">Join Date</label>
+                </div>
+                <div class="col-md-8 col-6">
+                  {{ user.date.slice(0, 16).replace("T", " ") }}
+                </div>
+              </div>
+              <hr />
+
+              <div class="row">
+                <div class="col-sm-3 col-md-2 col-5">
+                  <label style="font-weight: bold;">Phone Number</label>
+                </div>
+                <div class="col-md-8 col-6">
+                  {{ user.phoneNumber }}
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 col-md-2 col-5">
+                  <label style="font-weight: bold;">Status</label>
+                </div>
+                <div class="col-md-8 col-6">
+                  user
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-3 col-md-2 col-5">
+                  <label style="font-weight: bold;">Email</label>
+                </div>
+                <div class="col-md-8 col-6">
+                  {{ user.email }}
+                </div>
+              </div>
+              <hr />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

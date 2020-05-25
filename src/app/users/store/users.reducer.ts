@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import * as UsersActions from './users.action';
+import * as UsersActions from './users.actions';
 import { SimpleUser } from '../simple-user.model';
 
 export interface State {
@@ -22,7 +22,7 @@ const reducer = createReducer(
   })),
   on(UsersActions.setUser, (state, { payload }) => ({
     ...state,
-    user: payload,
+    selectUser: payload,
   })),
   on(UsersActions.crudFail, (state, { payload }) => ({
     ...state,

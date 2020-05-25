@@ -1,0 +1,23 @@
+<a
+  [routerLink]="[user._id]"
+  style="cursor: pointer;"
+  class="list-group-item clearfix"
+  routerLinkActive="active"
+>
+  <span class="pull-left" href="#">
+    <img class="img-responsive" [src]="serverUrl + user.avatarImg" />
+  </span>
+  <div class="media-body">
+    <h4 class="list-group-item-heading">
+      {{ user.firstName + " " + user.secondName }}
+    </h4>
+    <p class="list-group-item-text">
+      <i class="glyphicon glyphicon-envelope"></i> {{ user.email }}
+    </p>
+    <p>
+      <span class="label label-info"
+        >{{ user.recipes ? user.recipes.length : 0 }} recipes</span
+      >
+    </p>
+  </div>
+</a>
