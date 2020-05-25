@@ -1,8 +1,8 @@
 <div class="container">
   <h4>Common chat</h4>
-  
+
   <div class="message-container">
-    <div *ngFor="let message of messages">
+    <div *ngFor="let message of messagesObs | async">
       {{ message }}
     </div>
   </div>

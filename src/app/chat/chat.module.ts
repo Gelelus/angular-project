@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 import { ChatComponent } from './chat.component';
-import { ChatService } from './chat.service';
+
 
 @NgModule({
   declarations: [ChatComponent],
@@ -13,6 +13,6 @@ import { ChatService } from './chat.service';
     SharedModule,
     FormsModule,
   ],
-  providers: [ChatService],
+  providers: [],
 })
 export class ChatModule {}

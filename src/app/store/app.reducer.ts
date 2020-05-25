@@ -4,14 +4,16 @@ import * as fromShopingList from '../shoping-list/store/shoping-list.reducer';
 import * as fromAuth from '../auth/store/auth.reducer';
 import * as fromRecipes from '../recipes/store/recipe.reducer';
 import * as fromProfile from '../profile/store/profile.reducer';
-import * as fromUsers from '../users/store/users.reducer'
+import * as fromUsers from '../users/store/users.reducer';
+import * as fromChat from '../chat/store/chat.reducer';
 
 export interface AppState {
   shopingList: fromShopingList.State;
   auth: fromAuth.State;
   recipes: fromRecipes.State;
   profile: fromProfile.State;
-  users:fromUsers.State;
+  users: fromUsers.State;
+  chat: fromChat.State;
 }
 
 export const appReducer: ActionReducerMap<AppState> = {
@@ -19,5 +21,6 @@ export const appReducer: ActionReducerMap<AppState> = {
   auth: fromAuth.authReducer,
   recipes: fromRecipes.recipeReducer,
   profile: fromProfile.profileReducer,
-  users: fromUsers.usersReducer
+  users: fromUsers.usersReducer,
+  chat: fromChat.chatReducer,
 };
