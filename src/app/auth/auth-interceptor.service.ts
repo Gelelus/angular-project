@@ -5,11 +5,11 @@ import {
   HttpHandler,
 } from '@angular/common/http';
 import { take, exhaustMap, map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 
 import * as fromApp from '../store/app.reducer';
-
+import * as  AuthSelectors from './store/auth.selectors'
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
@@ -17,14 +17,12 @@ export class AuthInterceptorService implements HttpInterceptor {
     
     private store: Store<fromApp.AppState>
   ) {}
-
+  
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     
-    return this.store.select('auth').pipe(
+    return this.store.pipe(
+      select(AuthSelectors.user),
       take(1),
-      map(authState => {
-        return authState.user;
-      }),
       exhaustMap((user) => {
         if (!user) {
           return next.handle(req);

@@ -14,7 +14,7 @@ import { BindToServerPipe } from './bindToServer.pipe';
     DropdownDirective,
     PaginationComponent,
     FilterPanelComponent,
-    BindToServerPipe
+    BindToServerPipe,
   ],
   imports: [CommonModule, FormsModule],
   exports: [
@@ -23,7 +23,7 @@ import { BindToServerPipe } from './bindToServer.pipe';
     PaginationComponent,
     CommonModule,
     FilterPanelComponent,
-    BindToServerPipe
+    BindToServerPipe,
   ],
 })
 export class SharedModule {}

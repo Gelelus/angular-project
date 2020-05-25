@@ -11,7 +11,7 @@
   </div>
   <span class="pull-right">
     <img
-      [src]="serverUrl + recipe.imagePath"
+      [src]="recipe.imagePath | bindToServer"
       alt="{{ recipe.name }}"
       class="img-responsive"
       style="height: 50px;"

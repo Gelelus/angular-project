@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Recipe } from '../../recipe.model';
-import { environment } from 'src/environments/environment';
-
 
 @Component({
   selector: 'app-recipe-item',
@@ -10,7 +8,5 @@ import { environment } from 'src/environments/environment';
 })
 export class RecipeItemComponent {
   @Input() recipe: Recipe;
-  serverUrl = environment.DataBaseUrl;
-
   
 }
