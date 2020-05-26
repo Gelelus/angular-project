@@ -24,18 +24,21 @@ export class RecipeResolverService implements Resolve<Recipe[]> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.store.pipe(
       take(1),
-      select(RecipesSelectors.recipes),
-      switchMap((recipes) => {
-        if (recipes.length === 0) {
+      select(RecipesSelectors.selectStateRecipes),
+      switchMap((state) => {
+        if (state.recipes.length === 0) {
           this.store.dispatch(
-            new RecipesActions.FetchRecipes({ startItem: 0, limit: 5 })
+            new RecipesActions.FetchRecipes({
+              startItem: 0,
+              limit: state.recipesOnPage,
+            })
           );
           return this.actions$.pipe(
             ofType(RecipesActions.SET_RECIPES),
             take(1)
           );
         } else {
-          return of(recipes);
+          return of(state.recipes);
         }
       })
     );

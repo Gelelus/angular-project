@@ -39,7 +39,8 @@ export class RecipeListComponent implements OnInit {
       matchName?: string;
       matchString?: string;
       sortName: string;
-    } = { sortName: event.orderBy || 'name' };
+      limit:number
+    } = { sortName: event.orderBy || 'name' , limit: this.limit};
 
     if (event.searchString !== '') {
       query.matchName = 'name';

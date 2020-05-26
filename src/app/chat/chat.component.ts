@@ -10,7 +10,7 @@ import * as ChatActions from './store/chat.actions';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit {
   message = '';
   messagesObs = this.store.pipe(select(ChatSelectors.messages));
 
@@ -25,7 +25,5 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.store.dispatch(ChatActions.connectToServer());
   }
 
-  ngOnDestroy() {
-    this.store.dispatch(ChatActions.disconnectServer());
-  }
+
 }

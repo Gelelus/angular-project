@@ -1,8 +1,10 @@
 import { Action, createReducer, on } from '@ngrx/store';
+
 import * as ChatActions from './chat.actions';
+import { Message } from '../message.model';
 
 export interface State {
-  messages: string[];
+  messages: Message[];
   error: string;
 }
 

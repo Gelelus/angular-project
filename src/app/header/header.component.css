@@ -1,6 +1,7 @@
 .btn-logout {
   cursor: pointer;
   border-right: 1px solid rgb(218, 214, 214);
+  border-radius: 10px;
 }
 .img-avatar {
   cursor: pointer;
@@ -13,6 +14,10 @@
   margin-left: 1em;
 }
 
+.center {
+  margin-left: calc(20% - 110px);
+  
+}
 
 @media (max-width: 767px) {
   .avatar-container {
