@@ -9,6 +9,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { UserRecipesComponent } from './user-recipes/user-recipes.component';
 import { UserOrdersComponent } from './user-orders/user-orders.component';
 import { OrderItemComponent } from './user-orders/order-item/order-item.component';
+import { RecipesModule } from '../recipes/recipes.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { OrderItemComponent } from './user-orders/order-item/order-item.componen
     SharedModule,
     ReactiveFormsModule,
     ProfileRoutingModule,
+    RecipesModule
   ],
 })
 export class ProfileModule {}

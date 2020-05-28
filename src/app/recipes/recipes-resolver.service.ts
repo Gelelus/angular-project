@@ -26,7 +26,7 @@ export class RecipeResolverService implements Resolve<Recipe[]> {
       take(1),
       select(RecipesSelectors.selectStateRecipes),
       switchMap((state) => {
-        if (state.recipes.length === 0) {
+        if (state.recipes.length === 0 || state.outChange) {
           this.store.dispatch(
             new RecipesActions.FetchRecipes({
               startItem: 0,

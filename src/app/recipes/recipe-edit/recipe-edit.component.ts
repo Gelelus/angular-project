@@ -24,7 +24,7 @@ export class RecipeEditComponent implements OnInit {
   recipeForm: FormGroup;
   imagePreview: string;
   recipeObs: Observable<Recipe>;
-  serverUrl = environment.DataBaseUrl;
+ 
 
   constructor(
     private route: ActivatedRoute,

@@ -48,7 +48,7 @@
       <div class="row" *ngIf="imagePreview !== '' && imagePreview">
         <div class="col-xs-12">
           <img
-            [src]="serverUrl + recipe.imagePath"
+            [src]="recipe.imagePath | bindToServer"
             [alt]="recipeForm.value.name"
             class="img-responsive"
           />
