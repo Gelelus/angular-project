@@ -1,8 +1,19 @@
-<div class="row" *ngIf="usersObs | async as users">
-  <div class="col-xs-7">
+<div class="row" *ngIf="usersParamsObs | async as usersParms">
+  <div class="col-xs-8">
+    <app-filter-panel
+      (filterChange)="onFilterChange($event)"
+    ></app-filter-panel>
+    <hr />
     <app-users-item
-      *ngFor="let userEl of users"
+      *ngFor="let userEl of usersParms.users"
       [user]="userEl"
     ></app-users-item>
+    <app-pagination
+    *ngIf="usersParms.maxUsers > usersParms.usersOnPage"
+    [itemsNumber]="usersParms.maxUsers"
+    [initialPage]="InitialPage(usersParms.usersOnPage)"
+    [pageSize]="usersParms.usersOnPage"
+    (changePage)="onChangePage($event)"
+  ></app-pagination>
   </div>
 </div>

@@ -34,13 +34,22 @@ export class RecipeListComponent implements OnInit {
       )
       .subscribe();
   }
-  onFilterChange(event: { orderBy: string; searchString: string }) {
+  onFilterChange(event: {
+    orderBy: string;
+    searchString: string;
+    order: number;
+  }) {
     let query: {
       matchName?: string;
       matchString?: string;
       sortName: string;
-      limit:number
-    } = { sortName: event.orderBy || 'name' , limit: this.limit};
+      limit: number;
+      sortOrder: number;
+    } = {
+      sortName: event.orderBy || 'name',
+      limit: this.limit,
+      sortOrder: event.order || 1,
+    };
 
     if (event.searchString !== '') {
       query.matchName = 'name';

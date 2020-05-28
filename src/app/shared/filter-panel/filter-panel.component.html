@@ -10,7 +10,22 @@
 <br />
 
 <div class="row">
-  <div class="col-sm-12 text-right">
+  <div class="col-sm-6 text-left">
+    <div class="btn-group" appDropdown>
+      <button
+        type="button"
+        class="btn btn-default dropdown-toggle"
+        data-toggle="dropdown"
+      >
+        Order <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a (click)="onOrder(1)">Ascending</a></li>
+        <li><a (click)="onOrder(-1)">Descending</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-sm-6 text-right">
     <div class="btn-group" appDropdown>
       <button
         type="button"
@@ -20,8 +35,8 @@
         Order by <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu">
-        <li><a (click)="onOrder('name')">Name</a></li>
-        <li><a (click)="onOrder('date')">Date</a></li>
+        <li><a (click)="onOrderBy('name')">Name</a></li>
+        <li><a (click)="onOrderBy('date')">Date</a></li>
       </ul>
     </div>
   </div>
