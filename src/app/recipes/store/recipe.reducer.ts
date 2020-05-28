@@ -11,7 +11,7 @@ export interface State {
 const initialState: State = {
   recipes: [],
   maxRecipes: null,
-  recipesOnPage: 5,
+  recipesOnPage: 7,
   crudError: null,
 };
 

@@ -18,6 +18,7 @@ import { RecipeEffects } from './recipes/store/recipe.effect';
 import { ShopingListEffects } from './shoping-list/store/shoping-list.effects';
 import { ProfileEffects } from './profile/store/profile.effects';
 import { UsersEffects } from './users/store/users.effects';
+import { ChatEffects } from './chat/store/chat.effects';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -32,6 +33,7 @@ import { UsersEffects } from './users/store/users.effects';
       ShopingListEffects,
       ProfileEffects,
       UsersEffects,
+      ChatEffects
     ]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     // StoreRouterConnectingModule.forRoot(), // авто отправка экшенов при навигации

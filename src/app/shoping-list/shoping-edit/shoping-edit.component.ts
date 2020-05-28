@@ -7,6 +7,7 @@ import { Ingredient } from 'src/app/shared/ingredient.model';
 
 import * as ShopingListActions from '../store/shoping-list.actions';
 import * as fromApp from '../../store/app.reducer';
+import * as ShopingListSelectors from '../store/shoping-list.selectors'
 
 @Component({
   selector: 'app-shoping-edit',
@@ -23,7 +24,7 @@ export class ShopingEditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription = this.store
-      .pipe(select('shopingList'))
+      .pipe(select(ShopingListSelectors.selectStateShopingList))
       .subscribe((stateData) => {
         if (stateData.editedIngredientIndex > -1) {
           this.editMode = true;

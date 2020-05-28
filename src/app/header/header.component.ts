@@ -2,10 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from '../auth/store/auth.actions';
-import { environment } from 'src/environments/environment';
+import * as AuthSelectors from '../auth/store/auth.selectors';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,6 @@ import { environment } from 'src/environments/environment';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isAuth = false;
-  userEmail = '';
   userImgUrl = '';
   private userSub: Subscription;
 
@@ -22,20 +22,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userSub = this.store
-      .pipe(
-        select('auth'),
-        map((authState) => authState.user)
-      )
+      .pipe(select(AuthSelectors.user))
       .subscribe((user) => {
         this.isAuth = !!user;
         if (user) {
-          this.userEmail = user.email;
-          this.userImgUrl = environment.DataBaseUrl + user.avatarImgUrl;
+          this.userImgUrl = user.avatarImgUrl;
         }
       });
   }
-  
-  
+
   onCollapse(divCollapse: HTMLDivElement) {
     divCollapse.classList.toggle('collapse');
   }
@@ -43,7 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onLogout() {
     this.store.dispatch(new AuthActions.Logout());
   }
- 
+
   ngOnDestroy() {
     this.userSub.unsubscribe();
   }

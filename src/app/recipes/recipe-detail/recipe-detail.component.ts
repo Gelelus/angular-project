@@ -10,17 +10,14 @@ import * as RecipesActions from '../store/recipe.actions';
 import * as ShopingListActions from '../../shoping-list/store/shoping-list.actions';
 import * as RecipesSelectors from '../store/recipe.selectors';
 
-
-
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
   styleUrls: ['./recipe-detail.component.css'],
 })
-export class RecipeDetailComponent implements OnInit, OnDestroy {
+export class RecipeDetailComponent implements OnInit {
   recipe: Recipe;
   id: string;
-  serverUrl = environment.DataBaseUrl;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +34,7 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
         switchMap((id) => {
           this.id = id;
           return this.store.pipe(
-            select(RecipesSelectors.findRecipeById , { id: id })
+            select(RecipesSelectors.findRecipeById, { id: id })
           );
         })
       )
@@ -63,6 +60,4 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
     this.store.dispatch(new RecipesActions.DeleteRecipeOnDataBase(this.id));
     this.router.navigate(['../'], { relativeTo: this.route });
   }
-
-  ngOnDestroy() {}
 }

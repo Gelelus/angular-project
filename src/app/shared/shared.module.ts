@@ -6,6 +6,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { DropdownDirective } from './dropdown.directive';
 import { PaginationComponent } from './pagination/pagination.component';
 import { FilterPanelComponent } from './filter-panel/filter-panel.component';
+import { BindToServerPipe } from './bindToServer.pipe';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { FilterPanelComponent } from './filter-panel/filter-panel.component';
     DropdownDirective,
     PaginationComponent,
     FilterPanelComponent,
+    BindToServerPipe,
   ],
   imports: [CommonModule, FormsModule],
   exports: [
@@ -21,6 +23,7 @@ import { FilterPanelComponent } from './filter-panel/filter-panel.component';
     PaginationComponent,
     CommonModule,
     FilterPanelComponent,
+    BindToServerPipe,
   ],
 })
 export class SharedModule {}

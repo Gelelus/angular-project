@@ -4,15 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { SharedModule } from '../shared/shared.module';
 import { ChatComponent } from './chat.component';
-import { ChatService } from './chat.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 @NgModule({
   declarations: [ChatComponent],
   imports: [
-    RouterModule.forChild([{ path: '', component: ChatComponent }]),
+    RouterModule.forChild([
+      { path: '', component: ChatComponent, canActivate: [AuthGuard] },
+    ]),
     SharedModule,
     FormsModule,
   ],
-  providers: [ChatService],
+  providers: [],
 })
 export class ChatModule {}

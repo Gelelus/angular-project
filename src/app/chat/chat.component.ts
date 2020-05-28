@@ -1,31 +1,29 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ChatService } from './chat.service';
-import { Subscription } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+
+import * as fromApp from '../store/app.reducer';
+import * as ChatSelectors from './store/chat.selectors';
+import * as ChatActions from './store/chat.actions';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit {
   message = '';
-  messages: string[] = [];
-  sub: Subscription;
+  messagesObs = this.store.pipe(select(ChatSelectors.messages));
 
-  constructor(private chatService: ChatService) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   sendMessage() {
-    this.chatService.sendMessage(this.message);
+    this.store.dispatch(ChatActions.sendMessage({ payload: this.message }));
     this.message = '';
   }
- 
+
   ngOnInit() {
-    this.sub = this.chatService.getMessages().subscribe((message: string) => {
-      this.messages.push(message);
-    });
+    this.store.dispatch(ChatActions.connectToServer());
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
+
 }

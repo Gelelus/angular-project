@@ -6,12 +6,13 @@ import {
 } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
-import { take, map, switchMap } from 'rxjs/operators';
+import { take, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { Recipe } from './recipe.model';
 import * as fromApp from '../store/app.reducer';
-import * as RecipesActions from '../recipes/store/recipe.actions';
+import * as RecipesActions from './store/recipe.actions';
+import * as RecipesSelectors from './store/recipe.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class RecipeResolverService implements Resolve<Recipe[]> {
@@ -23,21 +24,21 @@ export class RecipeResolverService implements Resolve<Recipe[]> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.store.pipe(
       take(1),
-      select('recipes'),
-      map((recipeState) => {
-        return recipeState.recipes;
-      }),
-      switchMap((recipes) => {
-        if (recipes.length === 0) {
+      select(RecipesSelectors.selectStateRecipes),
+      switchMap((state) => {
+        if (state.recipes.length === 0) {
           this.store.dispatch(
-            new RecipesActions.FetchRecipes({ startItem: 0, limit: 5 })
+            new RecipesActions.FetchRecipes({
+              startItem: 0,
+              limit: state.recipesOnPage,
+            })
           );
           return this.actions$.pipe(
             ofType(RecipesActions.SET_RECIPES),
             take(1)
           );
         } else {
-          return of(recipes);
+          return of(state.recipes);
         }
       })
     );
