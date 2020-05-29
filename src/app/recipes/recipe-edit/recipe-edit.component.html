@@ -11,7 +11,7 @@
           >
             Save
           </button>
-         
+
           <button (click)="onCancel()" type="button" class="btn btn-danger">
             Cancel
           </button>
@@ -48,6 +48,13 @@
       <div class="row" *ngIf="imagePreview !== '' && imagePreview">
         <div class="col-xs-12">
           <img
+            *ngIf="!recipe.imagePath"
+            [src]="imagePreview"
+            [alt]="recipeForm.value.name"
+            class="img-responsive"
+          />
+          <img
+            *ngIf="recipe.imagePath"
             [src]="recipe.imagePath | bindToServer"
             [alt]="recipeForm.value.name"
             class="img-responsive"
