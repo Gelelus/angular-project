@@ -1,4 +1,4 @@
-<div class="col-lg-8 pb-5" *ngIf="userRecipesObs | async as recipes">
+<div class="col-lg-12 pb-5" *ngIf="userRecipesObs | async as recipes">
   <ng-container *ngFor="let recipe of recipes">
     <a
       [routerLink]="[recipe._id]"

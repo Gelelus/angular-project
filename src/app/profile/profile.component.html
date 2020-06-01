@@ -54,7 +54,9 @@
                 <div class="d-inline-block font-weight-medium text-uppercase">
                   Orders List
                 </div>
-                <span class="badge badge-secondary">{{ orderValue | async}}</span>
+                <span class="badge badge-secondary">{{
+                  orderValue | async
+                }}</span>
               </div>
             </div> </a
           ><a
@@ -72,7 +74,8 @@
         </nav>
       </div>
     </div>
-
-    <router-outlet></router-outlet>
+    <div class="col-lg-8">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

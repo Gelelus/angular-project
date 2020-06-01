@@ -15,8 +15,16 @@ export const users = createSelector(
   (usersState: State) => usersState.users
 );
 
+export const usersParams = createSelector(
+  selectStateUsers,
+  (usersState: State) => ({
+    users: usersState.users,
+    maxUsers: usersState.maxUsers,
+    usersOnPage: usersState.usersOnPage,
+  })
+);
+
 export const user = createSelector(
   selectStateUsers,
   (usersState: State) => usersState.selectedUser
 );
-

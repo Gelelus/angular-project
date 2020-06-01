@@ -6,6 +6,7 @@ export interface State {
   maxRecipes: number;
   recipesOnPage: number;
   crudError: string;
+  outChange: boolean;
 }
 
 const initialState: State = {
@@ -13,6 +14,7 @@ const initialState: State = {
   maxRecipes: null,
   recipesOnPage: 7,
   crudError: null,
+  outChange: false,
 };
 
 export function recipeReducer(
@@ -23,13 +25,21 @@ export function recipeReducer(
     case RecipesActions.SET_RECIPES:
       return {
         ...state,
-        recipes: [...action.payload.recipes],
+        recipes: [...action.payload.recipes].slice(0, state.recipesOnPage),
+        outChange: false,
         maxRecipes: action.payload.maxRecipes,
+      };
+
+    case RecipesActions.SET_RECIPE:
+      return {
+        ...state,
+        outChange: true,
+        recipes: [...state.recipes, action.payload],
       };
 
     case RecipesActions.ADD_RECIPE:
       const recipes =
-        state.recipes.length < 5
+        state.recipes.length < state.recipesOnPage
           ? [...state.recipes, action.payload]
           : state.recipes;
       return {
