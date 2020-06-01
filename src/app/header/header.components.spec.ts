@@ -36,6 +36,7 @@ describe('Header Component', () => {
 
   it('should create the header', () => {
     const fixture = TestBed.createComponent(HeaderComponent);
+    fixture.detectChanges();
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });
