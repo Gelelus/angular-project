@@ -3,7 +3,7 @@
     <div class="alert alert-danger" *ngIf="authParams.error">
       <p>{{ authParams.error }}</p>
     </div>
-    <div *ngIf="authParams.isLoading" style="text-align: center;">
+    <div *ngIf="authParams.isLoading" style="text-align: center;" class='spinner-container'>
       <app-loading-spinner></app-loading-spinner>
     </div>
     <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!authParams.isLoading">
