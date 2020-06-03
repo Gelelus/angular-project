@@ -1,10 +1,8 @@
-import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MemoizedSelector } from '@ngrx/store';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
-import {Location} from "@angular/common";
+import { RouterModule } from '@angular/router';
 
 import { UsersComponent } from './users.component';
 import * as fromApp from '../store/app.reducer';
@@ -13,15 +11,15 @@ import { SharedModule } from '../shared/shared.module';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UsersItemComponent } from './users-list/users-item/users-item.component';
-import { routes } from './users-routing.module';
+import { RouterTestingModule } from '@angular/router/testing';
+
 
 describe('Users Component', () => {
   let fixture: ComponentFixture<UsersComponent>;
   let mockStore: MockStore;
   let mockErrorSelector: MemoizedSelector<fromApp.AppState, string>;
   let app: UsersComponent;
-  let location: Location;
-  let router: Router;
+
   const queryError = () => fixture.debugElement.query(By.css('.alert p'));
 
   beforeEach(() => {
@@ -33,19 +31,15 @@ describe('Users Component', () => {
         UserDetailComponent,
         UsersItemComponent,
       ],
-      imports: [SharedModule, RouterTestingModule.withRoutes(routes)],
+      imports: [ RouterTestingModule, RouterModule,SharedModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UsersComponent);
     mockStore = TestBed.inject(MockStore);
-    router = TestBed.inject(Router);
-    location = TestBed.get(Location);
-
     app = fixture.debugElement.componentInstance;
     mockErrorSelector = mockStore.overrideSelector(UsersSelectors.error, null);
-    router.initialNavigation();
     
-  });
+  });      
 
   it('should create the users component', () => {
     fixture.detectChanges();
@@ -63,9 +57,5 @@ describe('Users Component', () => {
     expect(queryError().nativeElement.textContent).toBe('error');
   });
 
-  it('navigate to "" takes you to /', fakeAsync(() => {
-    router.navigate(['']);
-    tick();
-    expect(location.path()).toBe('/');
-  }));
+ 
 }); 

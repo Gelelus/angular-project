@@ -70,6 +70,7 @@ export class UsersListComponent {
         });
     }
   }
+  
   InitialPage(recipesOnPage: number) {
     return (
       Math.floor(
@@ -78,3 +79,4 @@ export class UsersListComponent {
     );
   }
 }
+ 

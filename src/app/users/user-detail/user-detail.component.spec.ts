@@ -54,7 +54,6 @@ describe('UserDetailComponent', () => {
   });
 
   it('should use img src from store', () => {
-
     fixture.detectChanges();
     expect(queryImg().nativeElement.src).toBe(
       environment.DataBaseUrl + mockUser.avatarImg
@@ -62,27 +61,22 @@ describe('UserDetailComponent', () => {
   });
 
   it('should display user phone number from store', () => {
-
     fixture.detectChanges();
     expect(queryPhone().nativeElement.textContent.trim()).toBe(mockUser.phoneNumber);
   });
 
-  it('should display user email from store', () => {
-  
+  it('should display user email from store', () => {  
     fixture.detectChanges();
     expect(queryEmail().nativeElement.textContent.trim()).toBe(mockUser.email);
   });
 
-  it('should display user date from store', () => {
-    
+  it('should display user date from store', () => { 
     const app = fixture.debugElement.componentInstance;
     fixture.detectChanges();
     expect(queryDate().nativeElement.textContent.trim()).toBe(app.prittyDate(mockUser.date));
   });
 
   it('should display recipes length from store', () => {
-    
-    const app = fixture.debugElement.componentInstance;
     fixture.detectChanges();
     expect(+queryRecipes().nativeElement.textContent).toBe(mockUser.recipes.length);
   });
