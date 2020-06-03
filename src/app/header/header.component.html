@@ -11,22 +11,22 @@
 
     <div class="collapse navbar-collapse" #divCollapse>
       <ul class="nav navbar-nav left">
-        <li routerLinkActive="active" *ngIf="isAuth">
+        <li routerLinkActive="active" *ngIf="isAuth" class="auth">
           <a routerLink="/recipes">Recipes</a>
         </li>
-        <li routerLinkActive="active" *ngIf="!isAuth">
+        <li routerLinkActive="active" *ngIf="!isAuth" class="auth">
           <a routerLink="/auth">Authenticate</a>
         </li>
-        <li routerLinkActive="active" *ngIf="isAuth">
+        <li routerLinkActive="active" *ngIf="isAuth" class="auth">
           <a routerLink="/shopping-list">Shopping List</a>
         </li>
       </ul>
 
       <ul class="nav navbar-nav center">
-        <li class routerLinkActive="active" *ngIf="isAuth">
+        <li class routerLinkActive="active" *ngIf="isAuth" class="auth">
           <a routerLink="/profile">Profile</a>
         </li>
-        <li routerLinkActive="active" *ngIf="isAuth">
+        <li routerLinkActive="active" *ngIf="isAuth" class="auth">
           <a routerLink="/chat">Common chat</a>
         </li>
         <li routerLinkActive="active">
@@ -34,11 +34,11 @@
         </li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right"  *ngIf="isAuth">
+      <ul class="nav navbar-nav navbar-right auth" *ngIf="isAuth">
         <li>
           <a class="btn-logout" (click)="onLogout()">Logout</a>
         </li>
-        <li routerLinkActive="active" >
+        <li routerLinkActive="active">
           <a class="profile-container" routerLink="/profile">
             <img
               width="50px"

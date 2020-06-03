@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from '../auth/store/auth.actions';
@@ -22,11 +20,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userSub = this.store
-      .pipe(select(AuthSelectors.user))
-      .subscribe((user) => {
-        this.isAuth = !!user;
-        if (user) {
-          this.userImgUrl = user.avatarImgUrl;
+      .pipe(select(AuthSelectors.imageAndAuth))
+      .subscribe((params) => {
+        this.isAuth = params.auth;
+        if (params.auth) {
+          this.userImgUrl = params.avatarImgUrl;
         }
       });
   }
