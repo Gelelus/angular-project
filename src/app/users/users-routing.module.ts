@@ -6,7 +6,7 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UsersResolverService } from './users-resolver.service';
 
-const routes = [
+export const routes = [
   {
     path: '',
     component: UsersComponent,
@@ -26,3 +26,4 @@ const routes = [
   exports: [RouterModule],
 })
 export class UsersRoutingModule {}
+ 

@@ -1,4 +1,4 @@
-<div class="row" *ngIf="userObs | async as user">
+<div class="row user-container" *ngIf="userObs | async as user">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
@@ -17,7 +17,8 @@
                 {{ user.firstName }}
               </h2>
               <h6>
-                <a>{{ user.recipes.length }}</a> Recipes Created
+                <a class="user-recipes">{{ user.recipes.length }}</a> Recipes
+                Created
               </h6>
             </div>
           </div>
@@ -37,7 +38,7 @@
                 <div class="col-sm-3 col-md-2 col-5">
                   <label style="font-weight: bold;">Full Name</label>
                 </div>
-                <div class="col-md-8 col-6">
+                <div class="col-md-8 col-6 user-name">
                   {{ user.firstName + " " + user.secondName }}
                 </div>
               </div>
@@ -47,7 +48,7 @@
                 <div class="col-sm-3 col-md-2 col-5">
                   <label style="font-weight: bold;">Join Date</label>
                 </div>
-                <div class="col-md-8 col-6">
+                <div class="col-md-8 col-6 user-date">
                   {{ prittyDate(user.date) }}
                 </div>
               </div>
@@ -57,7 +58,7 @@
                 <div class="col-sm-3 col-md-2 col-5">
                   <label style="font-weight: bold;">Phone Number</label>
                 </div>
-                <div class="col-md-8 col-6">
+                <div class="col-md-8 col-6 user-phone">
                   {{ user.phoneNumber }}
                 </div>
               </div>
@@ -75,7 +76,7 @@
                 <div class="col-sm-3 col-md-2 col-5">
                   <label style="font-weight: bold;">Email</label>
                 </div>
-                <div class="col-md-8 col-6">
+                <div class="col-md-8 col-6 user-email">
                   {{ user.email }}
                 </div>
               </div>

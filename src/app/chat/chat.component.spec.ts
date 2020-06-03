@@ -10,7 +10,7 @@ import * as ChatSelectors from './store/chat.selectors';
 import { SharedModule } from '../shared/shared.module';
 import { Message } from './message.model';
 
-describe('Auth Component', () => {
+describe('Chat Component', () => {
   let fixture: ComponentFixture<ChatComponent>;
   let mockStore: MockStore;
   let mockMessagesSelector: MemoizedSelector<fromApp.AppState, Message[]>;
