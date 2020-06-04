@@ -43,13 +43,10 @@ describe(`AuthHttpInterceptor`, () => {
   });
 
   it('should add an Authorization header if user exist', () => {
-    http.get(environment.DataBaseUrl + 'users').subscribe((response) => {
-      expect(response).toBeTruthy();
-    });
+    http.get(environment.DataBaseUrl + 'users').subscribe();
 
     const httpRequest = httpMock.expectOne(`${environment.DataBaseUrl}users`);
 
-    expect(httpRequest.request.headers.has('Authorization')).toEqual(true);
     expect(httpRequest.request.headers.get('Authorization')).toBe(
       'Bearer token'
     );
